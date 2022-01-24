@@ -1,2 +1,0 @@
-# Participating Media Presentation
-

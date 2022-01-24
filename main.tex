@@ -1,0 +1,145 @@
+%%
+% This is an Overleaf template for presentations
+% using the TUM Corporate Desing https://www.tum.de/cd
+%
+% For further details on how to use the template, take a look at our
+% GitLab repository and browse through our test documents
+% https://gitlab.lrz.de/latex4ei/tum-templates.
+% The tumbeamer class is based on the beamer class.
+% If you need further customization please consult the beamer class guide
+% https://ctan.org/pkg/beamer.
+% Additional class options are passed down to the base class.
+%
+% If you encounter any bugs or undesired behaviour, please raise an issue
+% in our GitLab repository
+% https://gitlab.lrz.de/latex4ei/tum-templates/issues
+% and provide a description and minimal working example of your problem.
+%%
+
+
+\documentclass[
+  english,            % define the document language (english, german)
+  aspectratio=169,    % define the aspect ratio (169, 43)
+  % handout=2on1,       % create handout with multiple slides (2on1, 4on1)
+  % partpage=false,     % insert page at beginning of parts (true, false)
+  % sectionpage=true,   % insert page at beginning of sections (true, false)
+]{tumbeamer}
+
+
+% load additional packages
+\usepackage{booktabs}
+
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{positioning}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+%\usepackage{todonotes}
+\newcommand\todo[1]{\textit{\textcolor{blue}{\\TODO: #1\\}}}
+\newcommand\todoi[1]{\textit{\textcolor{blue}{TODO: #1}}}
+\newcommand\tcb[1]{\textit{\textcolor{blue}{#1}}}
+
+\newcommand\bx[0]{\textbf{x}}
+\newcommand\by[0]{\textbf{y}}
+\newcommand\bomega[0]{\boldsymbol{\omega}}
+
+
+\usepackage{import}
+\usepackage{xifthen}
+\usepackage{pdfpages}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{\columnwidth}
+    \import{./img/}{#1.pdf_tex}
+}
+
+% presentation metadata
+\title{Rendering Participating Media}
+\subtitle{Data Visualization Seminar}
+\author{Barnabás Börcsök}
+
+\institute{\theChairName\\\theDepartmentName\\\theUniversityName}
+\date[WS 2021/2022]{Winter Semester, 2021/2022}
+
+\footline{\insertauthor~|~\insertshorttitle~|~\insertshortdate}
+
+
+% macro to configure the style of the presentation
+\TUMbeamersetup{
+  title page = TUM centered,         % style of the title page
+  part page = TUM toc,            % style of part pages
+  section page = TUM toc,         % style of section pages
+  content page = TUM more space,  % style of normal content pages
+  tower scale = 1.0,              % scaling factor of TUM tower (if used)
+  headline = TUM threeliner,      % which variation of headline to use
+  footline = TUM default,         % which variation of footline to use
+  % configure on which pages headlines and footlines should be printed
+  headline on = {title page},
+  footline on = {every page, title page=false},
+}
+
+% available frame styles for title page, part page, and section page:
+% TUM default, TUM tower, TUM centered,
+% TUM blue default, TUM blue tower, TUM blue centered,
+% TUM shaded default, TUM shaded tower, TUM shaded centered,
+% TUM flags
+%
+% additional frame styles for part page and section page:
+% TUM toc
+%
+% available frame styles for content pages:
+% TUM default, TUM more space
+%
+% available headline options:
+% TUM empty, TUM oneliner, TUM twoliner, TUM threeliner, TUM logothreeliner
+%
+% available footline options:
+% TUM empty, TUM default, TUM infoline
+
+
+\begin{document}
+
+\maketitle
+
+%\section{First Section}
+\begin{frame}{Motivation}
+  \begin{figure}
+      \centering
+      \includegraphics{img/teaser.png}
+      \label{fig:teaser}
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Propagation of light in a medium}
+    \begin{figure}[ht]
+        \centering
+        \def\svgwidth{\columnwidth}
+        \includegraphics[width=10cm]{img/propagation-illustration.png}
+        % \label{fig:propagation-illustration}
+    \end{figure}
+\end{frame}
+
+\begin{frame}{Properties of the medium}{Collision coefficients}
+\begin{figure}[ht]
+    \centering
+    \incfig{vre}
+    \caption{The Volume Rendering Equation (VRE) visualized.}
+    \label{fig:vre}
+\end{figure}\end{frame}
+
+%\section{Second Section}
+\begin{frame}{Frame of section two}
+\begin{figure}[ht]
+    \centering
+    \input{img/interactions.tex}
+    \caption{
+        Possible interactions between the volume and the light traveling through the medium. In this example, it first loses $\sigma_a L(x, \omega)$ radiance due to the material absorbing a portion of the light, then loses further $\sigma_s L(x, \omega)$ due to out-scattering. Then it gains $\sigma_s L_i(x, \omega)$ radiance from light scattered at another part of the volume. Lastly, it gains $\sigma_a L_e(x, \omega)$ light due to the material's emission.
+    }
+    \label{fig:interactions}
+\end{figure}
+\end{frame}
+
+\end{document}
