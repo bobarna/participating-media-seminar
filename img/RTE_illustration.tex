@@ -1,0 +1,71 @@
+\begin{tikzpicture}
+% 1 = 20p
+    \def\XSTART{-40pt}
+    \def\YSTART{60pt}
+    \def\YDIAONE{35pt}
+    \def\XONESTART{10pt}
+    \def\XONEDELTA{30pt} %width of cylinders
+    \def\DD{-10pt} %
+    \def\GAP{50pt} %
+    
+    \def\LABELYSHIFT{-50pt}
+    
+    %FIRST cylinder
+    \def\YEND{\YSTART+\YCURVE+\YDIATWO}
+    \def\XONEEND{\XONESTART+\XONEDELTA}
+    \def\YONEMIDDLE{\YSTART+\YDIAONE/2}
+  
+    %SECOND cylinder
+    \def\XTWOSTART{\XONESTART+\XONEDELTA+\GAP}
+    \def\XTWOEND{\XONEEND+\GAP+\XONEDELTA}
+  
+    %THIRD cylinder
+    \def\XTHREESTART{\XONESTART+\XONEDELTA+\GAP+\XONEDELTA+\GAP}
+    \def\XTHREEEND{\XONEEND+\GAP+\XONEDELTA+\GAP+\XONEDELTA}
+    
+    % FOURTH cylinder
+    \def\XFOURSTART{\XONESTART+\XONEDELTA+\GAP+\XONEDELTA+\GAP+\XONEDELTA+\GAP}
+    \def\XFOUREND{\XONEEND+\GAP+\XONEDELTA+\GAP+\XONEDELTA+\GAP+\XONEDELTA}
+
+    \tikzset{
+      partial ellipse/.style args={#1:#2:#3}{
+          insert path={+ (#1:#3) arc (#1:#2:#3)}
+      },
+      dimen/.style={<->,>=latex,thin,
+        every rectangle node/.style={fill=white,midway,font=\sffamily}},
+    }
+  
+    
+    % SECOND ARROW
+    \draw[-{Triangle[width=20pt,length=10pt, color=orange]}, 
+            line width=8pt, color=orange]
+        ({\XONEEND+0.5},\YONEMIDDLE) -- ({\XONEEND+\GAP-0.2},\YONEMIDDLE);
+    
+    % FIRST CYLINDER
+    \draw [fill=gray] (\XONESTART,\YSTART) coordinate (BA)
+        rectangle (\XONEEND,{\YSTART+\YDIAONE}) coordinate (BB);
+    \draw [fill=lightgray](\XONESTART,\YONEMIDDLE)
+        ellipse ({\YDIAONE/6} and {\YDIAONE/2});
+    \draw [fill=gray,dashed](\XONEEND,\YONEMIDDLE)
+        ellipse ({\YDIAONE/6} and {\YDIAONE/2});
+    \draw (\XONEEND,\YONEMIDDLE)
+        [partial ellipse=-90:90:{\YDIAONE/6} and {\YDIAONE/2}];
+
+    % \node[yshift=\LABELYSHIFT] at ($0.5*(BA)+0.5*(BB)$) {\textit{Absorption}};
+    
+    %nabla omega below
+    \draw ($(BB)-(0,\YDIAONE)$) -- ++(0,\DD) coordinate (D1) -- +(0,5pt);
+    \draw (BA) -- ++(0,\DD) coordinate (D2) -- +(0,5pt);
+    \draw [dimen] (D1) -- (D2) node {$\nabla\boldsymbol\omega$};
+
+    % INCOMING ARROW
+    \draw[-{Triangle[width=25pt,length=15pt, color=orange]}, 
+            line width=15pt, color=orange]
+            node [above=85pt ] {$\textcolor{black}{L(\textbf{x},\boldsymbol\omega)}$}
+        (\XSTART,\YONEMIDDLE) -- (\XONESTART-0.2,\YONEMIDDLE);
+
+
+    %ground
+    %\draw [fill=gray] (0,0) rectangle  (\XEND,\GROUND);
+
+\end{tikzpicture}%

@@ -63,10 +63,11 @@
     \put(0.93851821,0.28735976){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\boldsymbol{\omega}$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=4]{differential_volume.pdf}}%
     \put(0.34651173,0.21053985){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\nabla\boldsymbol{\omega}$\end{tabular}}}}%
-    \put(0.36648021,0.11863622){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\sigma_a \nabla\boldsymbol{\omega} = P\{collision\}$\end{tabular}}}}%
+    \put(0.376347,0.11863622){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\sigma_a \nabla\boldsymbol{\omega} = P\{collision\}$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=5]{differential_volume.pdf}}%
-    \put(0.36794645,0.08222732){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}"absorption coefficient"\end{tabular}}}}%
+    \put(0.4205693,0.0690718){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}"absorption coefficient"\end{tabular}}}}%
     \put(0.08069971,0.17857448){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$Area = 1$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=6]{differential_volume.pdf}}%
+    \put(0.42456928,0.03827682){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$[\sigma_a] = \frac{1}{m}$\end{tabular}}}}%
   \end{picture}%
 \endgroup%

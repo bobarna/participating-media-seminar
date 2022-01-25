@@ -1,0 +1,89 @@
+\begin{tikzpicture}
+% 1 = 20p
+    \def\XSTART{-40pt}
+    \def\YSTART{60pt}
+    \def\YDIAONE{35pt}
+    \def\XONESTART{10pt}
+    \def\XONEDELTA{30pt} %width of cylinders
+    \def\DD{-10pt} %
+    \def\GAP{50pt} %
+    
+    \def\LABELYSHIFT{-50pt}
+    
+    %FIRST cylinder
+    \def\YEND{\YSTART+\YCURVE+\YDIATWO}
+    \def\XONEEND{\XONESTART+\XONEDELTA}
+    \def\YONEMIDDLE{\YSTART+\YDIAONE/2}
+  
+    %SECOND cylinder
+    \def\XTWOSTART{\XONESTART+\XONEDELTA+\GAP}
+    \def\XTWOEND{\XONEEND+\GAP+\XONEDELTA}
+  
+    %THIRD cylinder
+    \def\XTHREESTART{\XONESTART+\XONEDELTA+\GAP+\XONEDELTA+\GAP}
+    \def\XTHREEEND{\XONEEND+\GAP+\XONEDELTA+\GAP+\XONEDELTA}
+    
+    % FOURTH cylinder
+    \def\XFOURSTART{\XONESTART+\XONEDELTA+\GAP+\XONEDELTA+\GAP+\XONEDELTA+\GAP}
+    \def\XFOUREND{\XONEEND+\GAP+\XONEDELTA+\GAP+\XONEDELTA+\GAP+\XONEDELTA}
+
+    \tikzset{
+      partial ellipse/.style args={#1:#2:#3}{
+          insert path={+ (#1:#3) arc (#1:#2:#3)}
+      },
+      dimen/.style={<->,>=latex,thin,
+        every rectangle node/.style={fill=white,midway,font=\sffamily}},
+    }
+  
+    % FIFTH ARROW (IN-SCATTERING)
+    \draw[-{Triangle[width=20pt,length=10pt, color=orange]}, 
+            line width=8pt, color=orange]
+        (\XTHREEEND+0.5,\YONEMIDDLE) -- (\XTHREEEND+\GAP-0.2,\YONEMIDDLE);
+    
+
+    % INSCATTERING ARROWS AROUND THIRD CYLINDER
+    % above
+    \draw[-{Triangle[width=8pt,length=8pt, color=orange!60]}, 
+            line width=3pt, color=orange!60]
+        ({\XTHREESTART+\XONEDELTA/2},{\YONEMIDDLE+40pt}) --
+        ({\XTHREESTART+\XONEDELTA/2},{\YONEMIDDLE+\YDIAONE/1.5});
+    \draw[-{Triangle[width=8pt,length=8pt, color=orange!60]}, 
+            line width=3pt, color=orange!60]
+        ({\XTHREESTART+\XONEDELTA/2-20pt},{\YONEMIDDLE+35pt}) --
+        ({\XTHREESTART+\XONEDELTA/2-10pt},{\YONEMIDDLE+\YDIAONE/1.5});
+    \draw[-{Triangle[width=8pt,length=8pt, color=orange!60]}, 
+            line width=3pt, color=orange!60]
+        ({\XTHREESTART+\XONEDELTA/2+20pt},{\YONEMIDDLE+35pt}) --
+        ({\XTHREESTART+\XONEDELTA/2+10pt},{\YONEMIDDLE+\YDIAONE/1.5});
+    % below
+    \draw[-{Triangle[width=8pt,length=8pt, color=orange!60]}, 
+            line width=3pt, color=orange!60]
+        ({\XTHREESTART+\XONEDELTA/2},{\YONEMIDDLE-40pt}) --
+        ({\XTHREESTART+\XONEDELTA/2},{\YONEMIDDLE-\YDIAONE/1.5});
+    \draw[-{Triangle[width=8pt,length=8pt, color=orange!60]}, 
+            line width=3pt, color=orange!60]
+        ({\XTHREESTART+\XONEDELTA/2-20pt},{\YONEMIDDLE-35pt}) -- 
+        ({\XTHREESTART+\XONEDELTA/2-10pt},{\YONEMIDDLE-\YDIAONE/1.5});
+    \draw[-{Triangle[width=8pt,length=8pt, color=orange!60]}, 
+            line width=3pt, color=orange!60]
+        ({\XTHREESTART+\XONEDELTA/2+20pt},{\YONEMIDDLE-35pt}) --
+        ({\XTHREESTART+\XONEDELTA/2+10pt},{\YONEMIDDLE-\YDIAONE/1.5});
+
+    \draw [fill=gray] (\XTHREESTART,\YSTART) coordinate (BA)
+        rectangle (\XTHREEEND,{\YSTART+\YDIAONE}) coordinate (BB);
+    \draw [fill=lightgray](\XTHREESTART,\YONEMIDDLE)
+        ellipse ({\YDIAONE/6} and {\YDIAONE/2});
+    \draw [fill=gray,dashed](\XTHREEEND,\YONEMIDDLE)
+        ellipse ({\YDIAONE/6} and {\YDIAONE/2});
+    \draw (\XTHREEEND,\YONEMIDDLE)
+        [partial ellipse=-90:90:{\YDIAONE/6} and {\YDIAONE/2}];
+
+    % \node[yshift=\LABELYSHIFT] at ($0.5*(BA)+0.5*(BB)$) {\textit{In-scattering}};
+
+    % THIRD ARROW (OUT-SCATTERING)
+    \draw[-{Triangle[width=8pt,length=10pt, color=orange]}, 
+            line width=3pt, color=orange]
+        (\XTWOEND+0.5,\YONEMIDDLE) -- ({\XTWOEND+\GAP-0.2},\YONEMIDDLE);
+    
+
+\end{tikzpicture}%

@@ -130,8 +130,9 @@
     \end{figure}
 \end{frame}
 
+
 \begin{frame}{Possible interactions}{between the volume and the light
-    traveling through the medium (1/2)}
+    traveling through the medium}
 \begin{figure}[ht]
     \centering
     \input{img/interactions.tex}
@@ -139,23 +140,164 @@
 \end{figure}
 \end{frame}
 
-%\section{Second Section}
-\begin{frame}{Possible interactions}{between the volume and the light
-    traveling through the medium (2/2)}
+\begin{frame}{Summing up the losses}
 \begin{figure}[ht]
     \centering
-    \input{img/interactions.tex}
+    \input{img/summing_up_the_losses.tex}
     \label{fig:interactions}
 \end{figure}
+
+\begin{columns}[t, onlytextwidth]
+    \column{.49\textwidth}
+    $\sigma_a$ : Absorption coefficient  \\
+    $\sigma_s$ : Scattering coefficient \\
+    $\sigma_a + \sigma_s = \sigma_t $ : Extinction coefficient
+    \column{.49\textwidth}
+    We lose 
+    $\sigma_t(\bx)L(\bx, \bomega)$
+    radiance \\ due to \textit{absorption} and \textit{out-scattering}.
+    
+\end{columns}
+\vspace{3mm}
+
+
+\end{frame}
+
+\begin{frame}{In-scattered radiance}
+\begin{figure}[ht]
+    \centering
+    % \scalebox{.7}{
+        \input{img/in_scattering_illustration.tex}
+    % }
+\end{figure}
+$$ L_s(\bx, \bomega) = \int_{S^2} f_p(\bomega, \bomega') L_i(\bx, \bomega')
+    d\bomega' $$
+\end{frame}
+
+
+\begin{frame}{Emission}
+\begin{figure}[ht]
+    \centering
+    % \scalebox{.7}{
+        \input{img/emission_illustration.tex}
+    % }
+\end{figure}
+$$L_e(\bx, \bomega)$$
+
+$$\sigma_a(\boldsymbol{x})L_e(\bx, \bomega)$$
+\end{frame}
+
+%\section{Second Section}
+\begin{frame}{Assembling all the parts}
+    \begin{figure}[ht]
+        \centering
+        \input{img/interactions.tex}
+        \label{fig:interactions}
+    \end{figure}
     \begin{itemize}
         \item Loses $\sigma_a L(x, \omega)$ due to absorption
         \item Loses $\sigma_s L(x, \omega)$ due to out-scattering
         \item Gains $\sigma_s L_i(x, \omega)$ due to in-scattering
-        \item Gains $\sigma_e L(x, \omega)$ due to emission
+        \item Gains $\sigma_a L(x, \omega)$ due to emission
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Properties of the medium}{Collision coefficients}
+
+\begin{frame}{RTE -- Radiative Transfer Equation}
+    The change in radiance $L$ traveling along direction $\boldsymbol{\omega}$
+    through a differential volume element at point $\boldsymbol{x}$.
+    \begin{figure}[ht]
+        \centering
+        \scalebox{.7}{
+            \input{img/RTE_illustration.tex}
+        }
+    \end{figure}
+    \begin{equation} 
+        \label{eq:RTE}
+        (\bomega \nabla)L(\bx,\bomega) =
+        - \sigma_t(\bx)L(\bx,\bomega)
+        + \sigma_s(\bx)L_s(\bx,\bomega) + \sigma_a(\bx)L_e(\bx,\bomega)
+    \end{equation}
+\end{frame}
+
+\begin{frame}{RTE -- Radiative Transfer Equation}
+    The change in radiance $L$ traveling along direction $\boldsymbol{\omega}$
+    through a differential volume element at point $\boldsymbol{x}$.
+    \begin{figure}[ht]
+        \centering
+        \scalebox{.7}{
+            \input{img/RTE_illustration.tex}
+        }
+    \end{figure}
+    \begin{equation} 
+        \label{eq:RTE}
+        (\bomega \nabla)L(\bx,\bomega) =
+        - \sigma_t(\bx)L(\bx,\bomega)
+        + \sigma_s(\bx)L_s(\bx,\bomega) + \sigma_a(\bx)L_e(\bx,\bomega)
+    \end{equation}
+    \centering
+    \vfill
+    \textbf{Let's integrate it!}
+\end{frame}
+
+\begin{frame}{Transmittance}{Integrating the loss of radiance}
+\begin{figure}[ht]
+    \centering
+    \scalebox{.7}{
+        \input{img/RTE_illustration.tex}
+    }
+    \begin{align}
+    \begin{aligned}
+        L(\bx + \nabla\bomega,\bomega) &= L(\bx,\bomega)
+        - \sigma_t(\bx)L(\bx,\bomega)\nabla\bomega \\ 
+        \frac{\nabla L(\bx,\bomega)}{\nabla\bomega} &=
+        - \sigma_t(\bx)L(\bx,\bomega) \\
+        \int_{L(x,\omega)}^{L(x+y\omega)} \frac{dL}{L} &= -\int_0^y
+        \sigma(x+\bomega')d\bomega'\\
+        ln(L(x+y\omega,\omega)) - ln(L(x,\omega)) = - \int_0^y \sigma(x+\bomega')
+    \end{aligned}
+    \end{align}
+
+\end{figure}
+\end{frame}
+
+\begin{frame}{RTE -- Radiative Transfer Equation}
+    {The integral version}
+    \vfill
+    \begin{figure}[ht]
+        \centering
+        \scalebox{.7}{
+            \input{img/RTE_illustration.tex}
+        }
+    \end{figure}
+    \vfill
+    \begin{equation}
+        L(\bx, \bomega) = \int_0^\infty 
+        %T(\bx, \by)
+        e^{-\int_0^y{\sigma_t(\bx-s\bomega)}ds}
+        \Big[
+            \sigma_s(\by)L_s(\by, \bomega) + \sigma_a(\by)L_e(\by, \bomega)
+        \Big]
+        d\by
+    \end{equation}
+    \vfill
+\end{frame}
+
+\begin{frame}{VRE -- The Volume Rendering Equation}
+    \begin{equation}
+    L(\bx, \bomega) = \int_{0}^{z} 
+        T(\bx, \by)
+        \big[ 
+            \sigma_a(\by)L_e(\by, \bomega) + 
+            \sigma_s(\by)L_s(\by, \bomega)
+        \big] dy
+        + 
+        T(\bx, \textbf{z})L(\textbf{z},\bomega)
+    \end{equation}
+
+\end{frame}
+
+\begin{frame}{The volume rendering equation}
     \begin{figure}[ht]
         \centering
         \incfig{vre}
