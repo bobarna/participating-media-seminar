@@ -1,0 +1,72 @@
+%% Creator: Inkscape inkscape 0.92.5, www.inkscape.org
+%% PDF/EPS/PS + LaTeX output extension by Johan Engelen, 2010
+%% Accompanies image file 'differential_volume.pdf' (pdf, eps, ps)
+%%
+%% To include the image in your LaTeX document, write
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics{<filename>.pdf}
+%% To scale the image, write
+%%   \def\svgwidth{<desired width>}
+%%   \input{<filename>.pdf_tex}
+%%  instead of
+%%   \includegraphics[width=<desired width>]{<filename>.pdf}
+%%
+%% Images with a different path to the parent latex file can
+%% be accessed with the `import' package (which may need to be
+%% installed) using
+%%   \usepackage{import}
+%% in the preamble, and then including the image with
+%%   \import{<path to file>}{<filename>.pdf_tex}
+%% Alternatively, one can specify
+%%   \graphicspath{{<path to file>/}}
+%% 
+%% For more information, please see info/svg-inkscape on CTAN:
+%%   http://tug.ctan.org/tex-archive/info/svg-inkscape
+%%
+\begingroup%
+  \makeatletter%
+  \providecommand\color[2][]{%
+    \errmessage{(Inkscape) Color is used for the text in Inkscape, but the package 'color.sty' is not loaded}%
+    \renewcommand\color[2][]{}%
+  }%
+  \providecommand\transparent[1]{%
+    \errmessage{(Inkscape) Transparency is used (non-zero) for the text in Inkscape, but the package 'transparent.sty' is not loaded}%
+    \renewcommand\transparent[1]{}%
+  }%
+  \providecommand\rotatebox[2]{#2}%
+  \newcommand*\fsize{\dimexpr\f@size pt\relax}%
+  \newcommand*\lineheight[1]{\fontsize{\fsize}{#1\fsize}\selectfont}%
+  \ifx\svgwidth\undefined%
+    \setlength{\unitlength}{456.07608825bp}%
+    \ifx\svgscale\undefined%
+      \relax%
+    \else%
+      \setlength{\unitlength}{\unitlength * \real{\svgscale}}%
+    \fi%
+  \else%
+    \setlength{\unitlength}{\svgwidth}%
+  \fi%
+  \global\let\svgwidth\undefined%
+  \global\let\svgscale\undefined%
+  \makeatother%
+  \begin{picture}(1,0.41901415)%
+    \lineheight{1}%
+    \setlength\tabcolsep{0pt}%
+    \put(0,0){\includegraphics[width=\unitlength,page=1]{differential_volume.pdf}}%
+    \put(0.00587308,0.37278426){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$L(\boldsymbol{x_1},\boldsymbol{\omega})$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=2]{differential_volume.pdf}}%
+    \put(0.04933386,0.28703727){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\boldsymbol{x_1}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=3]{differential_volume.pdf}}%
+    \put(0.70396679,0.28716648){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\boldsymbol{x_2}$\end{tabular}}}}%
+    \put(0.59056879,0.37173886){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$L(\boldsymbol{x_2},\boldsymbol{\omega}) = L(\boldsymbol{x_1},\boldsymbol{\omega}) - L(\boldsymbol{x_1},\boldsymbol{\omega})\sigma_a$\end{tabular}}}}%
+    \put(0.93851821,0.28735976){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\boldsymbol{\omega}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=4]{differential_volume.pdf}}%
+    \put(0.34651173,0.21053985){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\nabla\boldsymbol{\omega}$\end{tabular}}}}%
+    \put(0.36648021,0.11863622){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\sigma_a \nabla\boldsymbol{\omega} = P\{collision\}$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=5]{differential_volume.pdf}}%
+    \put(0.36794645,0.08222732){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}"absorption coefficient"\end{tabular}}}}%
+    \put(0.08069971,0.17857448){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$Area = 1$\end{tabular}}}}%
+    \put(0,0){\includegraphics[width=\unitlength,page=6]{differential_volume.pdf}}%
+  \end{picture}%
+\endgroup%

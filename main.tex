@@ -122,24 +122,46 @@
     \end{figure}
 \end{frame}
 
-\begin{frame}{Properties of the medium}{Collision coefficients}
-\begin{figure}[ht]
-    \centering
-    \incfig{vre}
-    \caption{The Volume Rendering Equation (VRE) visualized.}
-    \label{fig:vre}
-\end{figure}\end{frame}
+\begin{frame}{Change of radiance in a differential volume}
+    \begin{figure}[ht]
+        \centering
+        \incfig{differential_volume}
+        \label{fig:vre}
+    \end{figure}
+\end{frame}
 
-%\section{Second Section}
-\begin{frame}{Frame of section two}
+\begin{frame}{Possible interactions}{between the volume and the light
+    traveling through the medium (1/2)}
 \begin{figure}[ht]
     \centering
     \input{img/interactions.tex}
-    \caption{
-        Possible interactions between the volume and the light traveling through the medium. In this example, it first loses $\sigma_a L(x, \omega)$ radiance due to the material absorbing a portion of the light, then loses further $\sigma_s L(x, \omega)$ due to out-scattering. Then it gains $\sigma_s L_i(x, \omega)$ radiance from light scattered at another part of the volume. Lastly, it gains $\sigma_a L_e(x, \omega)$ light due to the material's emission.
-    }
     \label{fig:interactions}
 \end{figure}
+\end{frame}
+
+%\section{Second Section}
+\begin{frame}{Possible interactions}{between the volume and the light
+    traveling through the medium (2/2)}
+\begin{figure}[ht]
+    \centering
+    \input{img/interactions.tex}
+    \label{fig:interactions}
+\end{figure}
+    \begin{itemize}
+        \item Loses $\sigma_a L(x, \omega)$ due to absorption
+        \item Loses $\sigma_s L(x, \omega)$ due to out-scattering
+        \item Gains $\sigma_s L_i(x, \omega)$ due to in-scattering
+        \item Gains $\sigma_e L(x, \omega)$ due to emission
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Properties of the medium}{Collision coefficients}
+    \begin{figure}[ht]
+        \centering
+        \incfig{vre}
+        \caption{The Volume Rendering Equation (VRE) visualized.}
+        \label{fig:vre}
+    \end{figure}
 \end{frame}
 
 \end{document}
