@@ -63,6 +63,7 @@
     \put(0.65544063,0.05592739){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\textbf{y}$\end{tabular}}}}%
     \put(0.89989886,0.06335604){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\textbf{z}$\end{tabular}}}}%
     \put(0.83253104,0.02463589){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}\footnotesize{surface}\end{tabular}}}}%
+    \put(0.89,0.13893127){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$L(\textbf{z}, \omega)$\end{tabular}}}}%
     \put(0.58436628,0.13893127){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\sigma_s(\textbf{y})L_s(\textbf{y}, \omega)$\end{tabular}}}}%
     \put(0.2562073,0.13897051){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\sigma_a(\textbf{y})L_e(\textbf{y}, \omega)$\end{tabular}}}}%
   \end{picture}%

@@ -46,6 +46,9 @@
 \newcommand\by[0]{\textbf{y}}
 \newcommand\bomega[0]{\boldsymbol{\omega}}
 
+\usepackage{mathtools}
+
+\newcommand*\mystrut[1]{\vrule width0pt height0pt depth#1\relax}
 
 \usepackage{import}
 \usepackage{xifthen}
@@ -166,12 +169,29 @@
 \begin{frame}{In-scattered radiance}
 \begin{figure}[ht]
     \centering
-    % \scalebox{.7}{
+    \scalebox{.6}{
         \input{img/in_scattering_illustration.tex}
-    % }
+    }
 \end{figure}
-$$ L_s(\bx, \bomega) = \int_{S^2} f_p(\bomega, \bomega') L_i(\bx, \bomega')
+$$ L_s(\bx, \bomega) = \int_{S^2} f_p(\bx, \bomega, \bomega') L_i(\bx, \bomega')
     d\bomega' $$
+
+\begin{columns}[t, onlytextwidth]
+    \column{.20\textwidth}
+    Phase function $f_p(\bx, \bomega, \bomega')$ \\
+    \vspace{.3em}
+    \scriptsize{$\approx BSDF$ \\(in surface rendering)}
+    \column{.79\textwidth}
+    \begin{itemize}
+        \item scattering at point $\bx$, given incident ($\bomega$) and outgoing
+            ($\bomega'$) directions
+        \item $\int_{S^2} f_p = 1$
+        \item $f_p(\theta)\big|_{\theta = \measuredangle(\bomega, \bomega')}$
+        \item $f_p(\bx, \bomega, \bomega') = 1/(4\pi)$, if the medium is
+            \textit{isotropic}\\\hfill(otherwise, \textit{anisotropic})
+    \end{itemize}
+\end{columns}
+
 \end{frame}
 
 
@@ -240,50 +260,90 @@ $$\sigma_a(\boldsymbol{x})L_e(\bx, \bomega)$$
     \textbf{Let's integrate it!}
 \end{frame}
 
-\begin{frame}{Transmittance}{Integrating the loss of radiance}
+\begin{frame}{Integrating the loss of radiance}
 \begin{figure}[ht]
     \centering
-    \scalebox{.7}{
+    \scalebox{.6}{
         \input{img/RTE_illustration.tex}
     }
     \begin{align}
     \begin{aligned}
-        L(\bx + \nabla\bomega,\bomega) &= L(\bx,\bomega)
-        - \sigma_t(\bx)L(\bx,\bomega)\nabla\bomega \\ 
-        \frac{\nabla L(\bx,\bomega)}{\nabla\bomega} &=
-        - \sigma_t(\bx)L(\bx,\bomega) \\
-        \int_{L(x,\omega)}^{L(x+y\omega)} \frac{dL}{L} &= -\int_0^y
-        \sigma(x+\bomega')d\bomega'\\
-        ln(L(x+y\omega,\omega)) - ln(L(x,\omega)) = - \int_0^y \sigma(x+\bomega')
+        % \vert\nabla\bomega\vert &=  \\
+        L(\bx + \nabla\bomega,\bomega) &= 
+            L(\bx,\bomega) - \sigma_t(\bx)L(\bx,\bomega)\nabla\bomega \\ 
+        L(\bx + dx) &= 
+            L(\bx) - L(\bx)\sigma_t(\bx)dx\bigg|_{dx=\nabla\bomega,
+            L(\bx)=L(\bx, \bomega)} \\
+        \frac{L(\bx + dx) - L(\bx)}{dx} = \Aboxed{\frac{dL(\bx)}{dx} &=
+        -L(\bx)\sigma_t(\bx)} \text{ ("exponential extinction")}\\
+        \int_{L(x)}^{L(x+S)} \frac{1}{L} dL &= -\int_0^S \sigma_t(\bx)dx\\
+        ln(L(\bx+S)) - ln(L(\bx)) &= - \int_0^S \sigma_t(\bx) dx
     \end{aligned}
     \end{align}
-
 \end{figure}
+\end{frame}
+
+
+\begin{frame}{Transmittance}{The Beer-Lambert Law}
+\begin{figure}[ht]
+$$ \implies L(\bx + S) = L(\bx)e^{-\int_0^S \sigma_t(\bx+s)ds} $$
+\end{figure}
+
+Usually written as:\\
+\begin{columns}[t, onlytextwidth]
+\column{.49\textwidth}
+    $e^{-\int_0^y \sigma_t(\bx-s\bomega)ds} = T(\bx, \by)$
+    \\
+    \textit{"transmittance coefficient"} $T(\bx, \by)$\\
+    net reduction factor between $\bx$ and $\by$ \\due to absorption and
+    out-scattering
+\column{.49\textwidth}
+    $\int_0^y \sigma_t(\bx-s\bomega)ds = \tau(\bx,\by)$\\
+    \textit{"optical thickness" $\tau$}
+\end{columns}
+
+\vfill
+$$ T(t) = e^{-\tau(t)} = e^{-\int_0^t \sigma_t(\bx-s\bomega)ds} $$
+    \centering over distance $t$
+
 \end{frame}
 
 \begin{frame}{RTE -- Radiative Transfer Equation}
     {The integral version}
     \vfill
-    \begin{figure}[ht]
-        \centering
-        \scalebox{.7}{
-            \input{img/RTE_illustration.tex}
-        }
-    \end{figure}
+    % \begin{figure}[ht]
+    %     \centering
+    %     \scalebox{.7}{
+    %         \input{img/RTE_illustration.tex}
+    %     }
+    % \end{figure}
     \vfill
     \begin{equation}
         L(\bx, \bomega) = \int_0^\infty 
         %T(\bx, \by)
-        e^{-\int_0^y{\sigma_t(\bx-s\bomega)}ds}
+        \underbrace{\mystrut{2ex}
+            e^{-\int_0^y{\sigma_t(\bx-s\bomega)}ds}
+        }_{\text{Transmittance } T(\bx, \by)}
         \Big[
-            \sigma_s(\by)L_s(\by, \bomega) + \sigma_a(\by)L_e(\by, \bomega)
+            \underbrace{\mystrut{2ex}
+                \sigma_s(\by)L_s(\by, \bomega)
+            }_{\text{in-scatter}}
+            + 
+            \underbrace{\mystrut{2ex}
+                \sigma_a(\by)L_e(\by, \bomega)
+            }_{\text{emission}}
         \Big]
         d\by
     \end{equation}
     \vfill
 \end{frame}
 
-\begin{frame}{VRE -- The Volume Rendering Equation}
+\begin{frame}{VRE -- Volume Rendering Equation}
+    \begin{figure}[ht]
+        \centering
+        \incfig{vre}
+        \label{fig:vre}
+    \end{figure}
     \begin{equation}
     L(\bx, \bomega) = \int_{0}^{z} 
         T(\bx, \by)
@@ -294,16 +354,62 @@ $$\sigma_a(\boldsymbol{x})L_e(\bx, \bomega)$$
         + 
         T(\bx, \textbf{z})L(\textbf{z},\bomega)
     \end{equation}
-
 \end{frame}
 
-\begin{frame}{The volume rendering equation}
-    \begin{figure}[ht]
-        \centering
-        \incfig{vre}
-        \caption{The Volume Rendering Equation (VRE) visualized.}
-        \label{fig:vre}
-    \end{figure}
+\begin{frame}{Monte Carlo Integration}
+\begin{itemize}
+    \item $\int f(x)dx = \int \frac{f(x)}{p(x)}p(x) dx 
+        = E_N\Big[ \frac{f(x)}{p(x)} \Big]
+        \approx \frac{1}{N} \sum\limits_{i=1}^N \frac{f(x_i)}{p(x_i)}$
+    \item Applied to the Volume Rendering Equation:
+    $$\langle L(\bx, \bomega) \rangle = 
+        \frac{T(\bx, \by)}{p(y)}
+        \big[ 
+            \sigma_a(\by)L_e(\by, \bomega) + 
+            \sigma_s(\by)L_s(\by, \bomega)
+        \big] 
+        + 
+        T(\bx, \textbf{z})L(\textbf{z},\bomega)$$
+    \item $p(y)$ is the $PDF$ of sampling point $y$
+        $$\implies
+         \sum\limits_{i=1}^N \Big(
+        \frac{T(\bx, \by_i)}{p(y_i)}
+        \big[ 
+            \sigma_a(\by_i)L_e(\by_i, \bomega) + 
+            \sigma_s(\by_i)L_s(\by_i, \bomega)
+        \big] \Big)
+        + 
+        T(\bx, \textbf{z})L(\textbf{z},\bomega)
+        $$
+    \item We need:
+        \begin{itemize}
+            \item Sampling distances
+            \item Estimating the transmittance $T$ along a ray
+        \end{itemize}
+\end{itemize}
 \end{frame}
+
+\begin{frame}{Ray Marching}
+\begin{columns}
+    \column{.49\textwidth}
+    $\int_0^t \sigma_t(\bx-s\bomega)ds = \tau(t)$\\
+        \textit{"optical thickness" $\tau$}
+    \column{.49\textwidth}
+    $T(\bx, \by) = e^{-\tau(t)}$
+\end{columns}
+\end{frame}
+
+
+\begin{frame}{Delta Tracking}
+\end{frame}
+
+
+\begin{frame}{Transmittance Estimation}
+\end{frame}
+
+\begin{frame}{Acceleration Data Structures}
+\end{frame}
+
+\maketitle
 
 \end{document}
