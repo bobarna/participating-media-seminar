@@ -59,6 +59,8 @@
     \import{./img/}{#1.pdf_tex}
 }
 
+\usepackage{bm}
+
 % presentation metadata
 \title{Rendering Participating Media}
 \subtitle{Data Visualization Seminar}
@@ -112,6 +114,15 @@
   \begin{figure}
       \centering
       \includegraphics{img/teaser.png}
+      \label{fig:teaser}
+  \end{figure}
+\end{frame}
+
+
+\begin{frame}{Motivation}
+  \begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{img/ahsoka-smoke.png}
       \label{fig:teaser}
   \end{figure}
 \end{frame}
@@ -218,7 +229,7 @@ $$\sigma_a(\boldsymbol{x})L_e(\bx, \bomega)$$
         \item Loses $\sigma_a L(x, \omega)$ due to absorption
         \item Loses $\sigma_s L(x, \omega)$ due to out-scattering
         \item Gains $\sigma_s L_i(x, \omega)$ due to in-scattering
-        \item Gains $\sigma_a L(x, \omega)$ due to emission
+        \item Gains $\sigma_a L_e(x, \omega)$ due to emission
     \end{itemize}
 \end{frame}
 
@@ -389,22 +400,26 @@ $$ T(t) = e^{-\tau(t)} = e^{-\int_0^t \sigma_t(\bx-s\bomega)ds} $$
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Ray Marching}
-\begin{columns}
-    \column{.49\textwidth}
-    $\int_0^t \sigma_t(\bx-s\bomega)ds = \tau(t)$\\
-        \textit{"optical thickness" $\tau$}
-    \column{.49\textwidth}
-    $T(\bx, \by) = e^{-\tau(t)}$
-\end{columns}
+\begin{frame}{In homogeneous volumes}
+    $$T(t) = e^{-\int_0^t \sigma_t(\bx-s\bomega)ds} = e^{-\int_0^t \sigma_t ds} 
+    = e^{-\sigma_t t}$$
 \end{frame}
 
 
-\begin{frame}{Delta Tracking}
+\begin{frame}{Regular Tracking}{In homogeneous volumes}
+\begin{figure}[ht]
+    \centering
+    \def\svgwidth{\columnwidth}
+    \import{./img/}{tracking.pdf_tex}
+\end{figure}
 \end{frame}
 
-
-\begin{frame}{Transmittance Estimation}
+\begin{frame}{Transmittance Estimation}{Ray Marching}
+\begin{figure}[ht]
+    \centering
+    \def\svgwidth{0.6\columnwidth}
+    \import{./img/}{ray-marching.pdf_tex}
+\end{figure}
 \end{frame}
 
 \begin{frame}{Acceleration Data Structures}
