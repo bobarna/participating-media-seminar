@@ -59,7 +59,7 @@
     \put(0.20344574,0.06568419){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{\omega_0}$\end{tabular}}}}%
     \put(0.09908508,0.28773184){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{\omega_1}$\end{tabular}}}}%
     \put(0.22861112,0.26330659){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{x_1}$\end{tabular}}}}%
-    \put(0.33834962,0.16625601){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{x_2}$\end{tabular}}}}%
+    \put(0.32631207,0.16782611){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\bm{x_2}$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{tracking.pdf}}%
     \put(0.29744591,0.23221995){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$t_1$\end{tabular}}}}%
     \put(0.23474059,0.18484979){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$t_0$\end{tabular}}}}%

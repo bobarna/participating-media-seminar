@@ -42,9 +42,9 @@
 \newcommand\todoi[1]{\textit{\textcolor{blue}{TODO: #1}}}
 \newcommand\tcb[1]{\textit{\textcolor{blue}{#1}}}
 
-\newcommand\bx[0]{\textbf{x}}
-\newcommand\by[0]{\textbf{y}}
-\newcommand\bomega[0]{\boldsymbol{\omega}}
+\newcommand\bx[0]{\bm{x}}
+\newcommand\by[0]{\bm{y}}
+\newcommand\bomega[0]{\bm{\omega}}
 
 \usepackage{mathtools}
 
@@ -128,12 +128,11 @@
 \end{frame}
 
 \begin{frame}{Propagation of light in a medium}
-    \begin{figure}[ht]
-        \centering
-        \def\svgwidth{\columnwidth}
-        \includegraphics[width=10cm]{img/propagation-illustration.png}
-        % \label{fig:propagation-illustration}
-    \end{figure}
+  \begin{figure}[ht]
+      \centering
+      \def\svgwidth{0.7\columnwidth}
+      \import{./img/}{propagation-illustration.pdf_tex}
+  \end{figure}
 \end{frame}
 
 \begin{frame}{Change of radiance in a differential volume}
@@ -170,10 +169,14 @@
     We lose 
     $\sigma_t(\bx)L(\bx, \bomega)$
     radiance \\ due to \textit{absorption} and \textit{out-scattering}.
-    
 \end{columns}
-\vspace{3mm}
-
+\vfill
+\begin{columns}[t, onlytextwidth]
+    \column{.49\textwidth}
+    $\sigma_t\implies$Homogeneous  
+    \column{.49\textwidth}
+    $\sigma_t(\bx)\implies$Heterogeneous
+\end{columns}
 
 \end{frame}
 
@@ -400,18 +403,113 @@ $$ T(t) = e^{-\tau(t)} = e^{-\int_0^t \sigma_t(\bx-s\bomega)ds} $$
 \end{itemize}
 \end{frame}
 
-\begin{frame}{In homogeneous volumes}
-    $$T(t) = e^{-\int_0^t \sigma_t(\bx-s\bomega)ds} = e^{-\int_0^t \sigma_t ds} 
-    = e^{-\sigma_t t}$$
+\begin{frame}{Tracking}{In homogeneous volumes}
+    \begin{itemize}
+        \item Simulate how a photon bounces around inside a volume
+        \item Explicitly modeling absorption and scattering effects
+    \end{itemize}
+\begin{align}
+    T(t) = e^{-\int_0^t \sigma_t(\bx-s\bomega)ds} = e^{-\int_0^t \sigma_t ds} 
+    \Aboxed{= e^{-\sigma_t t} = T(t)}
+\end{align}
+
+PDF $p(t) = \sigma_t e^{-\sigma_t t}$ (by normalizing) 
+
+Perfectly importance sample with $t' = -ln(1-\zeta)/\sigma_t$ 
+\hfill $\zeta \in [0,1)$
+
+\begin{equation}
+    L(\bm{x}, \bm{\omega}) = \int_{t=0}^{d} p(t) 
+    \Big[ \frac{\sigma_a}{\sigma_t} L_e(\bm{x_t}, \omega)
+    + \frac{\sigma_s}{\sigma_t} L_s(\bm{x_t}, \bomega)
+    \Big]dt + L_d(\bm{x_d}, \bm{\omega})
+\end{equation}
+
+\begin{equation}
+  \sigma_a + \sigma_s = 1;
+  P_a = \frac{\sigma_a}{\sigma_t}; P_s = \frac{\sigma_a}{\sigma_t}
+\end{equation}
+
 \end{frame}
 
-
-\begin{frame}{Regular Tracking}{In homogeneous volumes}
+\begin{frame}{Closed-Form tracking}{In homogeneous volumes}
 \begin{figure}[ht]
     \centering
-    \def\svgwidth{\columnwidth}
+    \def\svgwidth{0.7\columnwidth}
     \import{./img/}{tracking.pdf_tex}
 \end{figure}
+
+\begin{equation}
+    L(\bm{x}, \bm{\omega}) = \int_{t=0}^{d} p(t) 
+    \Big[ P_a L_e(\bm{x_t}, \omega)
+    + P_s L_s(\bm{x_t}, \bomega)
+    \Big]dt + L_d(\bm{x_d}, \bm{\omega})
+\end{equation}
+\end{frame}
+
+\begin{frame}{Regular tracking}{In heterogeneous volumes}
+  What happens if the volume is \textbf{not homogeneous}? 
+  \hspace{5.4em}$\implies$$\sigma_t(\bm{x})$
+
+  $\implies$ apply closed-form tracking to homogeneous sub-parts
+  \hspace{2em}$\implies$$\sigma_t$
+
+\begin{figure}[ht]
+    \centering
+    \def\svgwidth{0.3\columnwidth}
+    \import{./img/}{tracking-only-boundary.pdf_tex}
+\end{figure}
+
+\begin{equation}
+    L(\bm{x}, \bm{\omega}) = \int_{t=0}^{d} p(t) 
+    \Big[ \frac{\sigma_a}{\sigma_t} L_e(\bm{x_t}, \omega)
+    + \frac{\sigma_s}{\sigma_t} L_s(\bm{x_t}, \bomega)
+    \Big]dt + L_d(\bm{x_d}, \bm{\omega})
+\end{equation}
+\end{frame}
+
+\begin{frame}{Delta tracking}{Introducing null-collisions}
+\begin{enumerate}
+  \item Problem: the volume is heterogeneous
+  \item Idea: \textbf{Increase the number of interactions} to make it
+    homogeneous,\\
+    but \textbf{reject} some of the interactions $\implies$
+    \textbf{null-collisions}
+\end{enumerate}
+
+\begin{equation}
+    L(\bx, \bomega) = \int_0^\infty 
+    T_{\bar\sigma}(\bm{x},\bm{y})
+    \Big[
+        \underbrace{\mystrut{2ex}
+            \sigma_s(\by)L_s(\by, \bomega)
+        }_{\text{in-scatter}}
+        + 
+        \underbrace{\mystrut{2ex}
+            \sigma_a(\by)L_e(\by, \bomega)
+        }_{\text{emission}}
+        +
+        \underbrace{\mystrut{2ex}
+            \sigma_n(\by)L(\by, \bomega)
+        }_{\text{null-collision}}
+    \Big]
+    d\by
+\end{equation}
+
+\vfill
+\begin{equation}
+  T_{\bar\sigma}(\bm{x},\bm{y}) = 
+  e^{-\int_0^y \sigma_s(\bm{s}) + \sigma_a(\bm{s}) + \sigma_n(\bm{s}) d\bm{s}}
+\end{equation}
+
+\begin{equation}
+  \sigma_n(\bx) = \bar\sigma - \sigma_t(\bx)
+\end{equation}
+
+\begin{equation}
+  \bar\sigma = \sigma_s(\bm{x}) + \sigma_a(\bm{x}) + \sigma_n(\bm{x})
+\end{equation}
+
 \end{frame}
 
 \begin{frame}{Transmittance Estimation}{Ray Marching}
@@ -423,6 +521,12 @@ $$ T(t) = e^{-\tau(t)} = e^{-\int_0^t \sigma_t(\bx-s\bomega)ds} $$
 \end{frame}
 
 \begin{frame}{Acceleration Data Structures}
+  \begin{itemize}
+    \item Spatially-varying properties
+    \item Data access usually dominates the render time \\
+    $\implies$ data structures are key for achieving good performance
+    \item Volume data can quickly grow into hundreds of gigabytes for production
+  \end{itemize}
 \end{frame}
 
 \maketitle
