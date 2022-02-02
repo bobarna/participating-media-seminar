@@ -249,8 +249,14 @@ $$\sigma_a(\boldsymbol{x})L_e(\bx, \bomega)$$
     \begin{equation} 
         \label{eq:RTE}
         (\bomega \nabla)L(\bx,\bomega) =
-        - \sigma_t(\bx)L(\bx,\bomega)
-        + \sigma_s(\bx)L_s(\bx,\bomega) + \sigma_a(\bx)L_e(\bx,\bomega)
+        \underbrace{ - \sigma_t(\bx)L(\bx,\bomega)}
+        _{Extinction}
+        + 
+        \underbrace{\sigma_s(\bx)L_s(\bx,\bomega)}
+        _{In-scattering}
+        + 
+        \underbrace{\sigma_a(\bx)L_e(\bx,\bomega)}
+        _{Emission}
     \end{equation}
 \end{frame}
 
@@ -266,8 +272,14 @@ $$\sigma_a(\boldsymbol{x})L_e(\bx, \bomega)$$
     \begin{equation} 
         \label{eq:RTE}
         (\bomega \nabla)L(\bx,\bomega) =
-        - \sigma_t(\bx)L(\bx,\bomega)
-        + \sigma_s(\bx)L_s(\bx,\bomega) + \sigma_a(\bx)L_e(\bx,\bomega)
+        \underbrace{ - \sigma_t(\bx)L(\bx,\bomega)}
+        _{Extinction}
+        + 
+        \underbrace{\sigma_s(\bx)L_s(\bx,\bomega)}
+        _{In-scattering}
+        + 
+        \underbrace{\sigma_a(\bx)L_e(\bx,\bomega)}
+        _{Emission}
     \end{equation}
     \centering
     \vfill
@@ -280,20 +292,32 @@ $$\sigma_a(\boldsymbol{x})L_e(\bx, \bomega)$$
     \scalebox{.6}{
         \input{img/RTE_illustration.tex}
     }
+    % \begin{align}
+    % \begin{aligned}
+    %     % \vert\nabla\bomega\vert &=  \\
+    %     L(\bx + \nabla\bomega,\bomega) &= 
+    %         L(\bx,\bomega) - \sigma_t(\bx)L(\bx,\bomega)\nabla\bomega \\ 
+    %     L(\bx + dx) &= 
+    %         L(\bx) - L(\bx)\sigma_t(\bx)dx\bigg|_{dx=\nabla\bomega,
+    %         L(\bx)=L(\bx, \bomega)} \\
+    %     \frac{L(\bx + dx) - L(\bx)}{dx} = \Aboxed{\frac{dL(\bx)}{dx} &=
+    %     -L(\bx)\sigma_t(\bx)} \text{ ("exponential extinction")}\\
+    %     \int_{L(x)}^{L(x+S)} \frac{1}{L} dL &= -\int_0^S \sigma_t(\bx)dx\\
+    %     ln(L(\bx+S)) - ln(L(\bx)) &= - \int_0^S \sigma_t(\bx) dx
+    % \end{aligned}
+    % \end{align}
     \begin{align}
     \begin{aligned}
-        % \vert\nabla\bomega\vert &=  \\
-        L(\bx + \nabla\bomega,\bomega) &= 
-            L(\bx,\bomega) - \sigma_t(\bx)L(\bx,\bomega)\nabla\bomega \\ 
         L(\bx + dx) &= 
             L(\bx) - L(\bx)\sigma_t(\bx)dx\bigg|_{dx=\nabla\bomega,
             L(\bx)=L(\bx, \bomega)} \\
-        \frac{L(\bx + dx) - L(\bx)}{dx} = \Aboxed{\frac{dL(\bx)}{dx} &=
+        \Aboxed{\frac{dL(\bx)}{dx} &=
         -L(\bx)\sigma_t(\bx)} \text{ ("exponential extinction")}\\
         \int_{L(x)}^{L(x+S)} \frac{1}{L} dL &= -\int_0^S \sigma_t(\bx)dx\\
         ln(L(\bx+S)) - ln(L(\bx)) &= - \int_0^S \sigma_t(\bx) dx
     \end{aligned}
     \end{align}
+
 \end{figure}
 \end{frame}
 
@@ -426,7 +450,7 @@ Perfectly importance sample with $t' = -ln(1-\zeta)/\sigma_t$
 \end{equation}
 
 \begin{equation}
-  \sigma_a + \sigma_s = 1;
+    \frac{\sigma_a + \sigma_s}{\sigma_t} = 1;
   P_a = \frac{\sigma_a}{\sigma_t}; P_s = \frac{\sigma_a}{\sigma_t}
 \end{equation}
 
@@ -462,8 +486,8 @@ Perfectly importance sample with $t' = -ln(1-\zeta)/\sigma_t$
 
 \begin{equation}
     L(\bm{x}, \bm{\omega}) = \int_{t=0}^{d} p(t) 
-    \Big[ \frac{\sigma_a}{\sigma_t} L_e(\bm{x_t}, \omega)
-    + \frac{\sigma_s}{\sigma_t} L_s(\bm{x_t}, \bomega)
+    \Big[ P_a L_e(\bm{x_t}, \omega)
+    + P_s L_s(\bm{x_t}, \bomega)
     \Big]dt + L_d(\bm{x_d}, \bm{\omega})
 \end{equation}
 \end{frame}
@@ -482,15 +506,15 @@ Perfectly importance sample with $t' = -ln(1-\zeta)/\sigma_t$
     T_{\bar\sigma}(\bm{x},\bm{y})
     \Big[
         \underbrace{\mystrut{2ex}
-            \sigma_s(\by)L_s(\by, \bomega)
+            P_s(\by)L_s(\by, \bomega)
         }_{\text{in-scatter}}
         + 
         \underbrace{\mystrut{2ex}
-            \sigma_a(\by)L_e(\by, \bomega)
+            P_a(\by)L_e(\by, \bomega)
         }_{\text{emission}}
         +
         \underbrace{\mystrut{2ex}
-            \sigma_n(\by)L(\by, \bomega)
+            P_n(\by)L(\by, \bomega)
         }_{\text{null-collision}}
     \Big]
     d\by
@@ -526,7 +550,61 @@ Perfectly importance sample with $t' = -ln(1-\zeta)/\sigma_t$
     \item Data access usually dominates the render time \\
     $\implies$ data structures are key for achieving good performance
     \item Volume data can quickly grow into hundreds of gigabytes for production
+        \begin{itemize}
+            \item For example, peak storage needed for a single shot of the
+                movie Soul was 80 TBs.
+        \end{itemize}
   \end{itemize}
+  \begin{figure}
+      \centering
+      \includegraphics[width=0.4\textwidth]{kd-tree-example.png}
+      \label{fig:kd-tree-example}
+      \caption{Heterogeneous volume with a spike in density results in high
+      $\bar\sigma$ everywhere. Using kd-trees lowers the number of evaluations
+      needed. \textit{Source: Production Volume Rendering SIGGRAPH 2017 Course by
+  Fong et. al.}}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Remaning challenges and open problems}
+    \begin{itemize}
+        \item Joint handling of surfaces and volumes
+            \begin{itemize}
+                \item Unifying the different techniques
+            \end{itemize}
+        \item Machine Learning
+            \begin{itemize}
+                \item Vast cost of data access and tracking particles
+                    high-albedo volumes (resulting in lots of scattering) --
+                    e.g. clouds
+            \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Summary}
+\begin{columns}[t, onlytextwidth]
+    \column{.49\textwidth}
+    \begin{itemize}
+        \item Problem statement and model of volume and light propagating
+            through it
+        \item Interaction between light ray and volume
+        \item Formula for getting the radiance $L(x, \bomega)$ to make it
+            applicable to usual ray tracing methods
+        \item Subtasks needed
+            \begin{itemize}
+                \item Distance sampling
+                \item Transmittance estimation
+            \end{itemize}
+        \item Optimization
+        \item Remaining challenges and open problems
+    \end{itemize}
+    \column{.49\textwidth}
+    \begin{figure}[ht]
+      \centering
+      \def\svgwidth{\columnwidth}
+      \import{./img/}{propagation-illustration.pdf_tex}
+    \end{figure}
+\end{columns}
 \end{frame}
 
 \maketitle

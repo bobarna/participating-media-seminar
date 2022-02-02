@@ -60,6 +60,7 @@
     \put(0.23576592,0.24879687){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$\Delta s$\end{tabular}}}}%
     \put(0,0){\includegraphics[width=\unitlength,page=3]{ray-marching.pdf}}%
     \put(0.07170968,0.14867355){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$T_0 = 1.0$\end{tabular}}}}%
-    \put(0.28602403,0.01358111){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$T_{i+1} = T_i - \Delta s \cdot \sigma_t(\bm{x}_i) $\end{tabular}}}}%
+    \put(0.28602403,0.01358111){\color[rgb]{0,0,0}\makebox(0,0)[lt]{\lineheight{1.25}\smash{\begin{tabular}[t]{l}$T_{i}
+        = T_{i-1}\cdot e^{- \sigma_t(\bm{x}_i)\Delta s} $\end{tabular}}}}%
   \end{picture}%
 \endgroup%
