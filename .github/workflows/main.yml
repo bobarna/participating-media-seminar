@@ -1,7 +1,7 @@
 name: Build LaTeX document
 on: 
-  push:
-    branches: ["main"]
+  # push:
+    # branches: ["main"]
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -25,7 +25,7 @@ jobs:
       # - name: Compile Presentation
       #   run: cd ${{env.DIR}}; pdflatex -interaction=nonstopmode
       - name: Move Artifacts
-        run: cd ..;echo $PWD; mkdir -p github_artifacts && mv ${{env.DIR}}/${{env.FILE}}.pdf ./github_artifacts/${{env.PDF}}
+        run: echo $PWD; mkdir -p github_artifacts && mv ${{env.DIR}}/${{env.FILE}}.pdf ./github_artifacts/${{env.PDF}}
       - name: Upload pdf Artifact
         uses: actions/upload-artifact@v2
         with:
