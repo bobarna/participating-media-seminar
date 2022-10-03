@@ -11,12 +11,14 @@ jobs:
     env:
       FILE: main
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v2
-      - name: install texlive
-        run: sudo apt update && sudo apt install texlive-full
+      - name: apt update
+        run: sudo apt update
       - name: install TUM template
         run: wget -O tum.deb 'https://gitlab.lrz.de/latex4ei/tum-templates/-/jobs/artifacts/v2.0.0/raw/build/tum-latex-templates-2.0.0.deb' && sudo apt install ./tum.deb
+      - name: Install texlive
+        run: sudo apt update && sudo apt install texlive texlive-publishers texlive-science 
       - name: Compile LaTeX document
         run: pdflatex ${{env.FILE}}; bibtex ${{env.FILE}}; pdflatex ${{env.FILE}}; pdflatex ${{env.FILE}};
       - name: move artifact
