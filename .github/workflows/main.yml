@@ -23,11 +23,11 @@ jobs:
         run: cd ${{env.DIR}}; pdflatex -interaction=nonstopmode ${{env.FILE}}; bibtex ${{env.FILE}}; pdflatex -interaction=nonstopmode ${{env.FILE}}; pdflatex -interaction=nonstopmode ${{env.FILE}}
         continue-on-error: true
       - name: Move Artifact
-        run: mkdir -p github_artifacts && mv ${{env.DIR}}/${{env.FILE}}.pdf ./github_artifacts/${{PDF}}
+        run: mkdir -p github_artifacts && mv ${{env.DIR}}/${{env.FILE}}.pdf ./github_artifacts/${{env.PDF}}
       - name: Upload pdf Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{PDF}}
+          name: ${{env.PDF}}
           path: ./github_artifacts
   deploy:
     needs: [build]
