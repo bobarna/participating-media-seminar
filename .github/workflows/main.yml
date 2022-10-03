@@ -28,7 +28,7 @@ jobs:
         run: pdflatex -interaction=nonstopmode ${{env.FILE}}; pdflatex -interaction=nonstopmode ${{env.FILE}}|
         continue-on-error: true
       - name: Move Artifact
-        run: mkdir -p github_artifacts && mv ${{env.FILE}}.pdf ./github_artifacts/
+        run: mkdir -p github_artifacts && mv ${{env.DIR}}/${{env.FILE}}.pdf ./github_artifacts/
       - name: Upload pdf Artifact
         uses: actions/upload-artifact@v2
         with:
