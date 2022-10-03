@@ -19,7 +19,7 @@ jobs:
       # - name: Install TUM template
       #   run: sudo bash ./ci-install.sh
       - name: Compile LaTeX document
-        run: cd ${{env.DIR}};pdflatex ${{env.FILE}}; bibtex ${{env.FILE}}; pdflatex ${{env.FILE}}; pdflatex ${{env.FILE}};
+        run: cd ${{env.DIR}};pdflatex -interaction=nonstopmode ${{env.FILE}}; bibtex ${{env.FILE}}; pdflatex -interaction=nonstopmode ${{env.FILE}}; pdflatex -interaction=nonstopmode ${{env.FILE}};
       - name: Move Artifact
         run: mkdir -p github_artifacts && mv ${{env.FILE}}.pdf ./github_artifacts/
       - name: Upload pdf Artifact
