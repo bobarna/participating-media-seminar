@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install TUM template
-        run: ./install-linux.sh
+        run: sudo bash ./install-linux.sh
       - name: Install texlive
         run: sudo apt update && sudo apt install texlive texlive-publishers texlive-science 
       - name: Compile LaTeX document
