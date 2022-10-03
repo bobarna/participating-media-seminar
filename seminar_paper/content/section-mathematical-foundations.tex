@@ -1,0 +1,98 @@
+The physical phenomenon of radiative transport is the transfer of energy
+in the form of electromagnetic radiation. In our case, we will deal with the transport of 
+light, more precisely the interactions defining a photon traveling through participating media. For an overview of notation used, see Appendix \ref{appendix:notation}.
+
+\subsection{Radiative Transfer Equation (RTE)}
+
+The Radiative Transfer Equation (RTE) gives us the change in radiance traveling along direction $\omega$ through a differential volume element at point $\bx$. 
+Appendix \ref{appendix:RTE} gives a detailed derivation of the RTE function, and its components before arriving at the \textit{integral form of the RTE}, giving us the explicit function
+
+\begin{equation} \label{eq:RTE-int}
+L(\bx, \bomega) = \int_0^\infty 
+%T(\bx, \by)
+e^{-\int_0^y{\sigma_t(\bx-s\bomega)}ds}
+\Big[
+    \sigma_s(\by)L_s(\by, \bomega) + \sigma_a(\by)L_e(\by, \bomega)
+\Big]
+d\by,
+\end{equation}
+
+which is suitable for use in a path tracing setting.
+We call $e^{-\int_0^y{\sigma_t(\bx-t\bomega)}}$ the  
+\textit{transmittance coefficient} and denote it with $T(\bx, \by)$,
+summing up the loss of light intensity between $\bx$ and 
+$\by$ due to absorption and out-scattering by integrating a single differential 
+process along $\bomega$. The exponent
+$\int_0^y{\sigma_t(\bx-s\bomega)}$ 
+is called the \textit{extinction coefficient} $\tau$. This is the Beer-Lambert law \cite{Lambert}, and we will often simplify the notation of the
+function to take only a single parameter $t$, denoting the distance between $\bx$ and
+$\textbf{y}$: $T(t) = e^{-\tau(t)} =e^{-\int_0^t{\mu_t(\boldsymbol{x}-s\boldsymbol\omega)}ds}$.
+
+\subsection{Volume rendering equation}
+As scenes are usually not made up only of participating media, but also solid objects
+with hard boundaries, we have to extend Equation~(\ref{eq:RTE-int}) to also 
+accommodate light interactions with object surfaces. The radiative equilibrium at a surface point $\textbf{z}$ is given by the surface rendering equation \cite{Kaj86}:
+
+\begin{equation}\label{eq:surface}
+    L(\textbf{z}, \bomega) = L_e(\textbf{z}, \bomega) +
+    \int_{S^2} f_r(\textbf{z},\bomega,\bomega')L_i(\textbf{z},\bomega')
+    ~\big| n(\textbf{z}\cdot \bomega')\big|~ d \omega' ,
+\end{equation}
+
+\noindent where $L_e(\textbf{z}, \bomega)$ is the radiance emitted by the surface, $f_r(\textbf{z},\bomega,\bomega')$ is the BSDF (Bidirectional Scattering Function), relating the differential outgoing radiance $dL(\textbf{z},\bomega)$ to the incident radiance $L_i(\textbf{z}, \bomega')$,
+and $\big| n(\textbf{z}\cdot \bomega')\big|$ is a foreshortening term depending on the surface normal $n(\textbf{z},\bomega')$ at incident point $\textbf{z}$ and incident ray direction $\bomega'$.
+
+We can combine Equations (\ref{eq:RTE-int}) and (\ref{eq:surface}) into the Volume Rendering Equation (VRE):
+
+\begin{align}
+\begin{aligned}
+\label{eq:VRE}
+L(\bx, \bomega) = &\int_{0}^{z} 
+    T(\bx, \by)
+    \big[ 
+        \sigma_a(\by)L_e(\by, \bomega) + 
+        \sigma_s(\by)L_s(\by, \bomega)
+    \big] dy
+    \\ + 
+    &T(\bx, \textbf{z})L(\textbf{z},\bomega).
+\end{aligned}
+\end{align}
+
+Given a closest surface point $\textbf{z}$, our volumetric rendering equation holds true up until this point, giving us the boundary condition for truncating the bounds of Equation~(\ref{eq:RTE-int}). (As we have to calculate the propagation of the light ray in the media up until this point.) 
+The radiance at this point $\textbf{z}$ is given by Equation~(\ref{eq:surface}) in direction $\bomega$. 
+$L(\textbf{z}, \bomega)$ represents the exitant radiance from the surface given by Equation~(\ref{eq:surface}), and the fraction of this that actually reaches our point $\bx$ is given by the transmittance coefficient $T(\bx, \by)$. 
+
+\begin{figure}[ht]
+    \centering
+    \incfig{vre}
+    \caption{The Volume Rendering Equation (VRE) visualized.}
+    \label{fig:vre}
+\end{figure}
+
+\subsection{Monte Carlo integration}
+Practically all modern high-quality physically-based rendering engines use Monte Carlo integration to solve the aforementioned equations.
+
+A \textit{primary} Monte Carlo estimator $\langle F \rangle = f(x) / p(x)$ is used to approximate $F(x)$'s integrand $f(x)$, where the probability density function (PDF) $p(x)$ is used to sample points $x$. Averaging $N$ independent realizations of a primary estimator, one can obtain a \textit{secondary} (i.e. multi-sample) estimator. 
+
+We can use a Monte Carlo estimator to solve the Volume Rendering Equation (\ref{eq:VRE}), estimating the amount of radiance arriving at point $\bx$ from direction $\bomega$:
+
+\begin{align}
+\begin{aligned}
+\label{eq:MC-VRE}
+\langle L(\bx, \bomega) \rangle 
+=&
+    \frac{T(\bx, \by)}{p(y)}
+    \big[ 
+        \sigma_a(\by)L_e(\by, \bomega) + 
+        \sigma_s(\by)L_s(\by, \bomega)
+    \big]
+    \\ +& 
+    T(\bx, \textbf{z}) L(\textbf{z},\bomega),
+\end{aligned}
+\end{align}
+
+\noindent where $p(y)$ is the PDF of sampling point $\by$, which is $y$ units away from $\bx$. This estimator requires two main routines: one for sampling distances along the ray, and one for estimating the transmittance $T(\bx, \by)$ between two given points. We will discuss these in Section \ref{section:distance-sampling} and \ref{section:transmittance} respectively.
+
+Estimator \ref{eq:MC-VRE} gives us a somewhat \textit{localized} view on the light-transport simulation, as we consider only one path segment at a time. For a more \textit{global} view on the transport problem, one can also utilize the path integral framework\cite{MLT-1}, enabling the sampling of entire sequence of vertices at once, in contrast to (\ref{eq:MC-VRE}) sampling only one vertex at once. Examples of such global techniques are joint importance sampling\cite{joint-importance} and Metropolis sampling \cite{MLT-2}. As we will not discuss these techniques here, the interested reader might want to refer to the cited sources.
+
+Whatever the sampling technique might be, two fundamental building blocks should be considered. Firstly, sampling a distance in a given direction, which is covered in Section \ref{section:distance-sampling}. This is used, as we construct our ray, propagating from the sensor (or virtual camera) into our virtual scene (and most notably, into the participating media). On the other hand, some techniques do not perform analog walks by sampling distances, but instead rely on estimating the transmittance between two points. We will cover transmittance estimation in Section \ref{section:transmittance}.

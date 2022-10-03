@@ -1,0 +1,20 @@
+Transmittance $T(\bx, \by)$ gives us how likely it is for a photon to pass through the volume between points $\bx$ and $\by$ without undergoing absorption or out-scattering. This is also called \textit{free-flight estimation}. As mentioned before, the transmittance function can be simplified to taking in a single real value $t$, denoting the distance between $\bx$ and
+$\by$.
+
+Transmittance can be calculated by essentially marching along the ray (instead of using the Monte Carlo technique) accumulating the loss of light (e.g. transmittance). This however introduces bias, and also might result in rendering artifacts if the volume is undersampled. In production, a ray marching transmittance with very small step sizes can be used as a reference to validate more sophisticated implementations\cite{SG17}.
+
+\subsection{Delta tracking transmittance estimator}
+We can use Equation (\ref{eq:mc-pn}) as a transmittance estimator in the PDF approach, testing if a collision occured before or after distance $t$. This estimator produces a binary estimator: $T(t) = 1$ or $T(t) = 0$. This technique is \textit{unbiased}.\cite{Novak18} The mean of the samples is the transmittance, although the variance is large. This binary estimate might be considered to be too inaccurate to be used efficiently in the PDF approach as it either totally discards or lets through.\cite{SG17} However, the concept of adding null collisions opens up the possibility for other methods, that we describe in this section. 
+
+\subsection{Ratio tracking transmittance estimator}
+Introduced to computer graphics by \cite{novak2014residual}, the goal of ratio tracking methods is the same: estimating the percentage of photons that make it beyond distance $t$. The main idea is to remove the binary fashion of the estimation mentioned above, and instead weighting the samples by the probability of continuing the walk. 
+
+In contrast to the aforementioned binary estimation, ratio tracking allows every single distance sample to reach $t$, scoring a fractional weight. The tracking \textit{never} terminates before $t$, and weight the accumulated transmittance at potential collision position $\textbf{c}$ by $\sigma_n(\textbf{c})/\bar\sigma(\textbf{c}) = 1- \sigma_t(\textbf{c})/\bar\sigma(\textbf{c})$, the "probability" of continuing forward. This can be formulated in the final transmittance estimator
+
+\begin{equation}
+    T(d) = \prod_{i=1}^K (1 - \frac{\sigma_t(\bx_i)}{\bar\sigma}),
+\end{equation}
+
+where $K$ are all of the collisions created before reaching the end of integration $d$. Like in delta tracking, the free path coefficient $\bar\sigma$ needs to be constant and a majorant of $\sigma_t(\bx_i)$.
+
+An incremental improvement, called residual ratio tracking is also introduced by \cite{novak2014residual}. Refer to \ref{appendix:residual-ratio-tracking} for more details.

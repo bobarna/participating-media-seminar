@@ -1,0 +1,37 @@
+%One of the aims of computer graphics is to reproduce the illusion of real life in a computer. In theory, a viewer should not be able to tell the difference between looking out on a window in real life, or looking at a computer scene. This noble (and seemingly unreachable) goal draws closer and closer to us each year with rapid developments in many fields of computer graphics. On one hand, we have to simulate events and phenomena happening around us, but we also have to put it on display in a manner that reproduces the look of real life as closely as possible. This is called rendering the virtual world. We will have a closer look at the latter, more specifically at techniques on how to render participating media.
+
+Participating media affect the light as it tries to propagate through its volume. Some of the common examples include glass, water, smoke, and even clear air. (See Figure \ref{fig:teaser}.) We approach the rendering of such phenomena as a collection of particles interacting with light rays. Chapter \ref{section:properties-of-the-volume}
+defines these possible interactions, laying the foundation for Chapter 
+\ref{section:mathematical-foundations}
+to formalize a possible extension of the widely used surface rendering 
+equation, first introduced by \cite{Kaj86}. 
+
+The main contribution of this paper is an overview of rendering participating media, building up the necessary formulations, and also giving a stable starting point for the interested reader to build up and understand more advanced techniques. 
+
+This paper builds for the most parts on the 2017 SIGGRAPH course on \textit{Production
+Volume Rendering} \cite{SG17} and on the 2018 survey on 
+\textit{Monte Carlo Methods for Volumetric Light Transport Simulation} \cite{Novak18}.
+
+As the use of ray tracing and Monte Carlo rendering is prevalent in current state-of-the-art production rendering engines \cite{SG17}, we also formalize the problem of rendering participating media as a ray-tracing problem, utilizing stochastic techniques to solve the equations.
+
+The use of Monte Carlo techniques means that we model the interactions between particles and media as a probability field, modeling the "average effect" instead of the individual collision effects.
+
+As photons, making up the light rays, propagate through participating media,
+the ray's direction and radiance (ultimately perceived as color) changes.
+This change in the light ray's direction and/or radiance is attributable
+to collisions with particles assumed to be infinitesimal volumes, that make up
+the whole of the participating media, as outlined in Section 
+\ref{section:properties-of-the-volume}.
+In essence, as these modified light rays end up reaching our eyes (or more 
+precisely, our virtual camera), we end up seeing the phenomena at hand.
+
+We assume \textit{statistically independent} collisions. This means that the 
+methods discussed will work in any gaseous media (e.g. clouds, smoke, fog, 
+fire, etc), but not for dense granular media such as sand and snow, where these assumptions break down.
+
+The prerequisite for the above assumption is that the size of the particles should
+be negligible compared to the average distance between them. If the particles are 
+comparable to the average distance between them (which is the case for dense 
+granular media), the assumption of statistically independent collisions breaks 
+down, as a collision event results in a big deviation compared to a case where the
+event does not happen.

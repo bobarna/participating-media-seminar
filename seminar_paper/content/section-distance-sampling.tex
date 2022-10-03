@@ -1,0 +1,88 @@
+In this and the next section, we discuss techniques for sampling distances and estimating transmittance along a ray. To classify distance-sampling methods, we share the terminology of \textit{analog} and \textit{non-analog} estimators of \cite{Novak18}, which they borrowed from the field of neutron transport. They categorize the algorithms according to whether they strictly adhere to the physical process of light propagation (analog), or not (non-analog).
+
+\textit{Analog} methods sample the distance to the next light-medium collision along the line of flight analogously to how photons interact with materials in the real world. The sampling procedure is in such cases commonly referred to as \textit{free-path sampling} or \textit{free-flight-distance sampling}. The distance distribution strictly adheres to the Beer-Lambert law: it has a PDF proportional to the transmittance along the given ray. Sampling can be explicit, via inverting the corresponding cumulative distribution function (CDF), or implicit, through probabilistic reasoning as in null-collision algorithms (discussed in \ref{section:delta}).
+
+\textit{Non-analog} methods have been developed to improve sampling efficiency over analog methods. They deviate from the true distribution of free paths, which are then "corrected" by appropriately weighting the samples. They usually lift some restriction present in analog methods. As we will not concentrate on these non-analog techniques, the interested reader may refer to \cite{Novak18}.
+
+Distance sampling is essential in the common case where a path is constructed incrementally by successively extending it from the sensor to the lights. 
+
+Methods share the common theme of sampling distances according to a certain probability density function (PDF). In the following, we first review analytic and semi-analytic analog methods for media that allows free-path sampling in closed form or through a simple iterative process. Next, we discuss rejection-based analog estimators that rely on so-called \textit{null collisions}. 
+
+\subsection{Closed-form tracking in homogeneous volume}
+
+For sampling purposes, we can define a PDF by normalizing the transmittance function $T(t) = \text{e}^{-\int_{s=0}^t \sigma_t (\bx_s)ds}$. 
+
+If the corresponding Cumulative Distribution Function (CDF) is analytically invertible, then the free-path distance $t'$ can be sampled analytically using a single random number $\zeta$.
+
+For the homogeneous volume, where $\sigma_t$ is not spatially varying, the transmittance becomes
+$$
+T(t) = e^{-\sigma_t t},
+$$
+which is the Beer-Lambert law: exponential extinction of radiance. We would like a free-flight estimator, that produces a free-path distance $t'$, the distance a proton will travel in the volume. The PDF to do so is defined by normalizing the integral of the exponential function of the transmittance:
+$
+p(t) = \sigma_t e^{-\sigma_t t}.
+$
+
+\noindent We can perfectly importance sample the PDF (producing a weight of 1) with the analytic formula for sampling free paths using uniform random numbers $\zeta \in [0,1)$,\cite{PharrHumphrey2016}:
+$
+t' = - ln(1 - \zeta)/\sigma_t,   
+$
+with PDF 
+\begin{equation}\label{eq:mc-pdf}
+p(t) = \sigma_t e^{-\sigma_t t}.
+\end{equation}
+
+\subsection{Regular tracking}
+In piecewise constant volumes, we can apply closed-form tracking to each of the piecewise constant domains, simply traversing into the next domain if we do not scatter. We can interpret the surface radiance $L(\textbf{z}, \bomega)$ as coming not from a hit surface, but rather a different volume. Finding boundaries separating homogeneous areas can introduce a substantial computing overhead. In order to be efficient, this approach needs large parts of the volume to be homogeneous. 
+
+\subsubsection{Ray marching}
+We can reduce the cost of regular tracking, by ignoring the boundaries and marching along the ray with fixed-size steps. This significantly simplifies the implementation at the cost of introducing bias. The algorithm queries the local medium extinction and then moves forward by a fixed distance. We assume either constant or linear optical thickness between the sampling points, deviating from the true free-path distribution. Sampling more frequently is always an option, although this adds to the computational costs. One way to reduce the cost can be to locally adapt the step size, or introduce other more sophisticated methods, such as higher order ray marching schemes\cite{Munoz14}. 
+
+\subsection{Delta tracking}\label{section:delta}
+Also known as Woodcock tracking, the null-collision algorithm, or pseudo scattering, the main idea behind delta tracking dates back to the rejection sampling technique introduced by John von Neumann in 1951\cite{vonNeumann1951}.
+
+The key idea to sampling free-path distances is to homogenize the collision density in heterogeneous volumes by introducing a fictitious collision type. By making the total collision density constant, the volume can be now considered homogeneous. In this new type of collision, called \textit{null-collision}, the volume scatters in the same direction as the incoming direction, having no effect on the light transport itself. We express this collision type with the null-collision coefficient $\sigma_n(\bx)$ which acts in the same way as the other physical coefficients introduced earlier. The physical collision coefficients are now spatially variant, as is the null-collision coefficient $\sigma_n(\bx)$. To homogenize the overall volume, we choose $\sigma_n(\bx)$ in such a way that the sum of all coefficients, the \textit{free-path coefficient $\bar{\sigma}$}, becomes constant:
+
+\begin{equation}
+\bar{\sigma} = \sigma_a(\bx) + \sigma_s(\bx) + \sigma_n(\bx) = \sigma_t(\bx) + \sigma_n(\bx).    
+\end{equation}
+
+\noindent A consequence of this is that $\bar\sigma$ is always equal or greater to the maximum of $\sigma_t(\bx)$, which is often formulated as being a \textit{majorant} of $\sigma_t(\bx)$:
+$
+    \bar{\sigma} \geq \sigma_t(\bx).
+$
+
+\noindent We can easily calculate $\sigma_n(\bx)$:
+\begin{equation}
+    \sigma_n(\bx) = \bar\sigma - \sigma_t(\bx).
+\end{equation}
+
+\noindent As $\bar\sigma$ is constant, it can take on the role of the constant extinction $\sigma_t$ used in the closed-form technique \ref{eq:mc-pdf} and we can draw a distance sample in the same way as in the closed-form tracking:
+\begin{equation}\label{eq:mc-pn}
+    p_n(t) = \bar{\sigma}~e^{-\bar\sigma t}.
+\end{equation}
+
+By introducing null-collisions, we now have three collision types instead of two, resulting in the definition of three probabilities to consider:
+$$
+P_a(\bx) = \frac{\sigma_a(\bx)}{\bar\sigma},~~~ 
+P_s(\bx) = \frac{\sigma_s(\bx)}{\bar\sigma},~~~
+P_n(\bx) = \frac{\sigma_n(\bx)}{\bar\sigma},
+$$
+
+\noindent where $P_a(\bx) + P_s(\bx) + P_n(\bx) = 1$. Applying the additional null-collision probability to the VRE gives the recursive form
+
+\begin{align}
+\begin{aligned}
+    L(\bx_j, \omega_j) = \int_{t=0}^\infty 
+    p_n(t_j)\Big[
+        &P_a(\bx) L_e(\bx_{j+1}, \omega_j) +\\
+        &P_s(\bx) L_s(\bx_{j+1}, \omega_j) +\\
+        &P_n(\bx) L(\bx_{j+1}, \omega_j)
+    \Big]dt.
+\end{aligned}
+\end{align}
+
+To work efficiently, we need $\bar\sigma$ to be as close to the maximum of $\sigma_t$ as possible. While it is valid, to just simply choose a very large $\bar\sigma$, that would result in having mostly null-collisions, stopping only to do nothing, and continue further.
+
+%Introducing a null-collision type of (fictitious) volume-photon interaction, that does nothing to the photon when the interaction happens. We choose the null-collision coefficient $\sigma_n(\bx)$ such that the sampling strategy as used in closed form tracking sees a homogeneous (constant) volume.
+

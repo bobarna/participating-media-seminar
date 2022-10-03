@@ -1,0 +1,209 @@
+% ---------------------------------------------------------------------
+% EG author guidelines plus sample file for EG publication using LaTeX2e input
+% D.Fellner, v2.02, Jan 25, 2017
+
+
+\title[Participating Media]%
+      {Rendering Participating Media}
+
+% for anonymous conference submission please enter your SUBMISSION ID
+% instead of the author's name (and leave the affiliation blank) !!
+\author[B.Börcsök \& L.Leonard]
+{\parbox{\textwidth}{\centering Barnabás Börcsök$^1$% 
+\\ Seminar: Data Visualization %
+\\ barnabas.borcsok@gmail.com% 
+\\ Supervisor: Ludwig Leonard-Méndez^1%
+%        S. Spencer$^2$\thanks{Chairman Siggraph Publications Board}
+        }
+        \\
+% For Computer Graphics Forum: Please use the abbreviation of your first name.
+{\parbox{\textwidth}{\centering $^1$ Technische Universit\"at M\"unchen
+%        $^2$ Another Department to illustrate the use in papers from authors
+%             with different affiliations
+       }
+}
+}
+% ------------------------------------------------------------------------
+
+% if the Editors-in-Chief have given you the data, you may uncomment
+% the following five lines and insert it here
+%
+% \volume{36}   % the volume in which the issue will be published;
+% \issue{1}     % the issue number of the publication
+% \pStartPage{1}      % set starting page
+
+
+%-------------------------------------------------------------------------
+\begin{document}
+
+\teaser{ 
+    \includegraphics[width=\linewidth]{img/teaser.png}
+    \centering
+    \caption{Examples of participating media.}
+    \label{fig:teaser}
+}
+
+\maketitle
+%-------------------------------------------------------------------------
+\begin{abstract}
+    Rendering participating media such as smoke, fog, clouds and fire is 
+    an important and active branch of computer graphics research. 
+    This essay aims to give an overview of rendering such 
+    volumetric phenomena by formalizing the problem statement, and building
+    up to current advancements and directions of research in the field of
+    rendering participating media.
+   
+%The tool at \url{http://dl.acm.org/ccs.cfm} can be used to generate
+% CCS codes.
+\begin{CCSXML}
+<ccs2012>
+   <concept>
+       <concept_id>10010147.10010371.10010372</concept_id>
+       <concept_desc>Computing methodologies~Rendering</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+ </ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Computing methodologies~Rendering}
+
+\printccsdesc   
+\end{abstract}  
+%-------------------------------------------------------------------------
+\section{Introduction}
+\input{content/section-introduction.tex}
+%-------------------------------------------------------------------------
+\section{Properties of the medium}
+\label{section:properties-of-the-volume}
+\input{content/section-properties.tex}
+%-------------------------------------------------------------------------
+\section{Mathematical foundations for radiative transport}
+\label{section:mathematical-foundations}
+\input{content/section-mathematical-foundations.tex}
+%-------------------------------------------------------------------------
+\section{Distance sampling}
+\label{section:distance-sampling}
+\input{content/section-distance-sampling.tex}
+%-------------------------------------------------------------------------
+\section{Transmittance estimation}
+\label{section:transmittance}
+\input{content/section-transmittance.tex}
+%-------------------------------------------------------------------------
+\section{Acceleration Data Structures / Optimization}
+\input{content/section-optimization.tex}
+
+
+%-------------------------------------------------------------------------
+\section{Remaining challenges and open problems}
+\input{content/section-remaining-challenges.tex}
+%-------------------------------------------------------------------------
+\section{Conclusion}
+\input{content/section-conclusion.tex}
+%-------------------------------------------------------------------------
+
+%\bibliographystyle{eg-alpha}
+\bibliographystyle{eg-alpha-doi}
+
+\bibliography{egbibsample}
+
+\appendix
+
+\section{Notation}\label{appendix:notation}
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|l|}
+    \hline
+    $\textbf{x, y}\in \mathbb{R}^3$ & 
+    positions in 3D space \\
+    $s \in \mathbb{R}$ &
+    scalar value \\
+    $\boldsymbol\omega \in \mathbb{R}^3$ & direction vector \\
+    $\textbf{y} = \textbf{x}-s\boldsymbol\omega$ &
+    $\textbf{y}$ is $s$ away from $\textbf{x}$ in direction $-\boldsymbol{\omega}$\\
+    \hline
+    $\textbf{x}_s := \textbf{x}-s\boldsymbol\omega$ &
+    optional shorthands for the above\\
+    $\textbf{x}_t := \textbf{x}-t\boldsymbol\omega$ & \\
+    \hline
+    $\by = \bx - y\bomega$ &
+    $y$ denotes the distance of $\by$ from $\bx$.\\
+    \hline
+\end{tabular}
+\caption{A quick overview of notation used}
+\end{table}
+
+Some papers denote the absorption, scattering and extinction coefficients
+with $\mu_a$, $\mu_s$ and $\mu_e$ respectively, devising them
+from the cross-sectional areas $[m^2]$ $\sigma_a$, $\sigma_s$ and $\sigma_t$
+for absorbing, scattering and extinguishing (both absorbing \textit{and} scattering) 
+particles and also the density per unit volume $\rho$ $[\frac{1}{m^3}]$.
+
+They denote the above mentioned collision coefficients with 
+$\mu_{a,s,t} = \sigma_{a,s,t}\cdot\rho$, multiplying the cross-sectional areas by 
+the density per unity volume.
+
+For the purposes of this seminar paper, we use the notations
+introduced in Section \ref{section:mathematical-foundations}, denoting the absorption, scattering and extinction 
+coefficients with $\sigma_{a}$, $\sigma_{s}$ and $\sigma_{t}$ respectively.
+
+\section{Radiative Transfer Equation}\label{appendix:RTE}
+The Radiative Transfer Equation (RTE) gives the change in radiance traveling along direction
+$\bomega$ through a differential volume element at point $\textbf{x}$.
+
+As a photon travels through a medium, it interacts with material particles, which
+results in a loss of radiance due to absorption, and scattering in different directions 
+\textit{(specified by the phase function $f_p$)}, while also gaining radiance due to the 
+material's emission of energy, and collecting the scattered light from all directions.
+
+We call the radiance loss due to the light scattering in all directions \textit{out-scattering}, and the radiance gain due to collecting the light scattered elsewhere \textit{in-scattering}.
+
+We lose a portion of radiance $L(\bx, \bomega)$ due to absorption and out-scattering: $\sigma_a(\bx)L(\bx,\bomega)$ and $\sigma_s(\bx)L(\bx,\bomega)$, respectively. For brevity, we usually combine these into a single extinction term: $$\sigma_t(\bx)L(\bx, \bomega).$$
+
+For calculating the \textit{radiance gains due to in-scattering}, we collect all incident radiance $L_i(\bx, \bomega)$ from all directions on the unit sphere $S^2$, and call it \textit{in-scattered radiance}:
+
+$$L_s(\bx, \bomega) = \int_{S^2} f_p(\bomega, \bomega') L_i(\bx, \bomega') d\bomega'.$$ 
+
+After calculating the in-scattered radiance, we multiply it with the $\sigma_s$ scattering coefficient, as light gets scattered in the direction of the viewer only if there are scattering particles there.
+
+We can also gain radiance due to the volume emitting energy. The volume's emitted radiance is expressed as a radiance field $L_e(\bx, \bomega)$, whose output gets absorbed and scattered just like any other "regular", non-volume light source. If a volume does not emit, $L_e(\bx, \bomega)$ is simply zero.
+
+Adding together these four terms, we arrive at the Radiative Transfer Equation (RTE):
+
+\begin{align} 
+\begin{aligned}
+\label{eq:RTE}
+(\bomega \nabla)L(\bx,\bomega) =&
+- \sigma_t(\bx)L(\bx,\bomega) +\\
+&+ \sigma_s(\bx)L_s(\bx,\bomega) + \sigma_a(\bx)L_e(\bx,\bomega).
+\end{aligned}
+\end{align}
+
+
+Note: $(\bomega \nabla)$ is a notation for looking at the change in radiance L in direction $\bomega$.
+
+Equation (\ref{eq:RTE}) gives us the change in radiance in a forward-transport fashion using the gradient $\bomega\nabla$, defining what happens to a radiance beam as it travels forward in direction $\bomega$, as can be seen on Figure \ref{fig:interactions}. This is useful for many applications, but not in a path tracing setting. Integrating Equation \ref{eq:RTE} along the direction $\bomega$, changing the gradient $(\bomega\nabla)$ on the left side into an integral on the right side, we arrive at the integral form of the Radiative Transfer Equation, giving us the explicit function
+
+\begin{equation}
+L(\bx, \bomega) = \int_0^\infty 
+%T(\bx, \by)
+e^{-\int_0^y{\sigma_t(\bx-s\bomega)}ds}
+\Big[
+    \sigma_s(\by)L_s(\by, \bomega) + \sigma_a(\by)L_e(\by, \bomega)
+\Big]
+d\by.
+\end{equation}
+
+
+\section{Residual ratio tracking}\label{appendix:residual-ratio-tracking}
+Next to ratio tracking, \cite{novak2014residual} also introduced a more sophisticated technique called residual ratio tracking. It is an incremental improvement, introducing a control extinction coefficient $\sigma_c$, which is constant over the volume, and ideally is very similar to the actual extinction coefficient $\sigma_t$. With $\sigma_c$, the transmittance $T(t)$ is now broken into two parts: a control transmittance $T_c(t)$, which can be written in closed form, and a residual transmittance $T_r(t)$, which must be estimated:
+\begin{align}
+\begin{aligned}
+    T_c(t) &= e^{-\sigma_c t}\\
+    T_r(t) &= e^{-\int^t_{s=0} \sigma_t(\bx_s)-\sigma_c ds }\\
+    T(t)   &= T_c(t) T_r(t)
+\end{aligned}
+\end{align}
+
+The key improvement of residual ratio tracking  over ratio tracking is the use of $\bar\sigma_r$, the majorant over the residual extinction coefficient $\sigma_r = \sigma_t - \sigma_c$. 
+
+\end{document}

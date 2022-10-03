@@ -1,0 +1,26 @@
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{positioning}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+%\usepackage{todonotes}
+\newcommand\todo[1]{\textit{\textcolor{blue}{\\TODO: #1\\}}}
+\newcommand\todoi[1]{\textit{\textcolor{blue}{TODO: #1}}}
+\newcommand\tcb[1]{\textit{\textcolor{blue}{#1}}}
+
+\newcommand\bx[0]{\textbf{x}}
+\newcommand\by[0]{\textbf{y}}
+\newcommand\bomega[0]{\boldsymbol{\omega}}
+
+
+\usepackage{import}
+\usepackage{xifthen}
+\usepackage{pdfpages}
+\usepackage{transparent}
+\newcommand{\incfig}[1]{%
+    \def\svgwidth{\columnwidth}
+    \import{./img/}{#1.pdf_tex}
+}

@@ -1,0 +1,51 @@
+After a brief introduction to our goal and assumptions, we now dive deeper into how we think about participating media, and define important properties of the materials.
+
+\subsection{Collision coefficients}
+Participating media is a collection of microscopic particles.
+
+As a photon travels through a medium (in the computer graphics sense), it interacts with material particles, which results in a loss of radiance due to the material absorbing the energy of the photon, or scattering it in some different directions. It is also possible for the photon particle to gain radiance due to the material's emission of energy, and also due to collecting the light scattered previously at some other point in the volume.
+
+The \textit{absorption coefficient} $\sigma_a$ and 
+\textit{scattering coefficient} $\sigma_s$ each quantify the local 
+probability density of a photon undergoing the respective interaction per unit distance traveled $[\frac{1}{m}]$. For an overview of the possible interactions, see Figure \ref{fig:interactions}.
+
+\begin{figure}[ht]
+    \centering
+    \input{img/interactions.tex}
+    \caption{
+        Possible interactions between the volume and the light traveling through the medium. In this example, it first loses $\sigma_a L(x, \omega)$ radiance due to the material absorbing a portion of the light, then loses further $\sigma_s L(x, \omega)$ due to out-scattering. Then it gains $\sigma_s L_i(x, \omega)$ radiance from light scattered at another part of the volume. Lastly, it gains $\sigma_a L_e(x, \omega)$ light due to the material's emission.
+    }
+    \label{fig:interactions}
+\end{figure}
+
+The \textit{extinction coefficient} $\sigma_t = \sigma_a + \sigma_s$ indicates
+the probability density of either type of event happening per unit distance.
+It is also called the \textit{attenuation coefficient}.
+
+\subsection{Phase function}
+
+The \textit{phase function} 
+$f_p(\textbf{x}, \boldsymbol{\omega},\boldsymbol{\omega}')$
+describes how the volume scatters light at a given point \bx, depending on the incident ($\bomega$) and outgoing ($\bomega'$) directions.
+
+In order to influence only the direction of the light (but do not influence the intensity of the light), $f_p$ needs to be normalized over the unit sphere:
+$
+    \int f_p(\textbf{x}, \boldsymbol{\omega},\boldsymbol{\omega}') = 1.
+$
+
+Its use is analog to the BSDF function in the case of surface rendering. In most cases, $f_p$ can be written as a function of the single angle~$\theta$ between the two directions $\boldsymbol{\omega}$ and $\boldsymbol{\omega}'$. If the medium scatters light uniformly in all directions, it is said to be \textit{isotropic}, and the phase function is
+$
+    f_{p, isotropic}(\textbf{x}, \boldsymbol{\omega},\boldsymbol{\omega}') = 
+    1/(4\pi).
+$
+
+\noindent If the phase function is not isotropic, then it is \textit{anisotropic}.
+
+
+\subsection{Directional dependence}
+In cases when the collision coefficients $\sigma_a$ and $\sigma_s$ do not depend on the direction of light propagation, the phase function can be parameterized only by the angle between incident and scattered light. A material is then called \textit{isotropic}. (Note: for isotropic materials, the phase function can still be anisotropic -- not scattering light uniformly.)
+
+A material is \textit{anisotropic}, if the collision coefficients or the phase functions depend on the direction of incident or scattered light, i.e. the response of the material varies with the direction of propagation.
+
+\subsection{Spatial dependence}
+The medium is \textit{homogeneous} if all of the above medium properties are spatially invariant, and \textit{heterogeneous} otherwise.

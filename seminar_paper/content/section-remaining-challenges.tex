@@ -1,0 +1,7 @@
+\subsection{Machine Learning}
+As is the case with many others fields of computer graphics (and beyond), enhancing volumetric rendering with Artificial Intelligence (AI) methods, such as machine learning has huge potentials. The vast cost involved when accessing voxelized data and tracing paths in high-albedo volumes involving lots of scattering (e.g. clouds) make it challenging for Monte Carlo techniques to deliver results at tractable costs. The high expense of importance sampling such high-dimensional spaces can be mitigated by incorporating various aggregators \cite{AIaggr01}\cite{AIaggr02}\cite{AIaggr03}, diffusion approximations \cite{AIdiff01}\cite{AIdiff02}\cite{AIdiff03}\cite{AIdiff04} or deep learning \cite{AIdl}, but this always comes at the cost of introducing some kind of bias.
+AI techniques can also be applied at the level of distance and directional samples for surface rendering \cite{AIsurf01}\cite{AIsurf02}\cite{AIsurf03}\cite{AIsurf04}, or other forms of path guiding could potentially provide significant benefits.
+
+\subsection{Joint handling of surfaces and volumes}
+A final render usually necessitates including both volumes and surfaces in the same scene. Different techniques have been developed to tackle these different tasks, which could even mean the usage of different renderers for surfaces and volumes in the same scenes, potentially leading to problems when combined. A unified scene representation might lend itself better for many use cases.
+

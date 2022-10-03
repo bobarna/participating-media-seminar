@@ -1,0 +1,5 @@
+Acceleration data structures are important, as \textit{data access} usually dominates the overall render time.
+
+While ray tracing, an improvement can be achieved by \textit{avoiding empty spaces} before the first interaction with the volumetric effect.
+
+In the case of delta tracking, having a \textit{localized $\bar\sigma$ majorant} for spatially diverse transmittance also yields performance gains, as we reduce the number of null collisions, which means we "stop, and continue without doing anything" fewer times. Space partitioning data structures, such as \textit{k-d trees}\cite{yue2010unbiased} or \textit{octrees}\cite{kutz2017spectral} might be used to achieve this.

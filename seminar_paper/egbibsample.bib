@@ -1,0 +1,330 @@
+%% my citations
+
+@article{Kaj86,
+author = {Kajiya, James T.},
+title = {The Rendering Equation},
+year = {1986},
+issue_date = {Aug. 1986},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {20},
+number = {4},
+issn = {0097-8930},
+url = {https://doi.org/10.1145/15886.15902},
+doi = {10.1145/15886.15902},
+abstract = {We present an integral equation which generalizes a variety of known rendering algorithms. In the course of discussing a monte carlo solution we also present a new form of variance reduction, called Hierarchical sampling and give a number of elaborations shows that it may be an efficient new technique for a wide variety of monte carlo procedures. The resulting rendering algorithm extends the range of optical phenomena which can be effectively simulated.},
+journal = {SIGGRAPH Comput. Graph.},
+month = {aug},
+pages = {143–150},
+numpages = {8}
+}
+
+@inproceedings{SG17,
+author = {Fong, Julian and Wrenninge, Magnus and Kulla, Christopher and Habel, Ralf},
+title = {Production Volume Rendering: SIGGRAPH 2017 Course},
+year = {2017},
+isbn = {9781450350143},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3084873.3084907},
+doi = {10.1145/3084873.3084907},
+abstract = {This document might be out of date, please check online for an updated version.With significant advances in techniques, along with increasing computational power, path tracing has now become the predominant rendering method used in movie production. Thanks to these advances, volume rendering can now take full advantage of the path tracing revolution, allowing the creation of photoreal images that would not have been feasible only a few years ago. However, volume rendering also provides its own set of unique challenges that can be daunting to path tracer developers and researchers accustomed to dealing only with surfaces. While recent texts and materials have covered some of these challenges, to the best of our knowledge none have comprehensively done so, especially when confronted with the complexity and scale demands required by production. For example, the last volume rendering course at SIGGRAPH in 2011 discussed ray marching and precomputed lighting and shadowing, none of which are techniques advisable for production purposes in 2017.},
+booktitle = {ACM SIGGRAPH 2017 Courses},
+articleno = {2},
+numpages = {79},
+location = {Los Angeles, California},
+series = {SIGGRAPH '17}
+}
+
+@article{Novak18,
+author = {Novák, Jan and Georgiev, Iliyan and Hanika, Johannes and Jarosz, Wojciech},
+title = {Monte Carlo Methods for Volumetric Light Transport Simulation},
+journal = {Computer Graphics Forum},
+volume = {37},
+number = {2},
+pages = {551-576},
+keywords = {CCS Concepts, •Computing methodologies → Computer graphics, Rendering, Ray tracing},
+doi = {https://doi.org/10.1111/cgf.13383},
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1111/cgf.13383},
+eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1111/cgf.13383},
+abstract = {Abstract The wide adoption of path-tracing algorithms in high-end realistic rendering has stimulated many diverse research initiatives. In this paper we present a coherent survey of methods that utilize Monte Carlo integration for estimating light transport in scenes containing participating media. Our work complements the volume-rendering state-of-the-art report by Cerezo et al. [CPP*05]; we review publications accumulated since its publication over a decade ago, and include earlier methods that are key for building light transport paths in a stochastic manner. We begin by describing analog and non-analog procedures for free-path sampling and discuss various expected-value, collision, and track-length estimators for computing transmittance. We then review the various rendering algorithms that employ these as building blocks for path sampling. Special attention is devoted to null-collision methods that utilize fictitious matter to handle spatially varying densities; we import two “next-flight” estimators originally developed in nuclear sciences. Whenever possible, we draw connections between image-synthesis techniques and methods from particle physics and neutron transport to provide the reader with a broader context.},
+year = {2018}
+}
+
+@article{Lambert,
+author = {Lambert, Johann Heinrich},
+title = {Photometria: Sive de Mensura et Gradibus Luminus, Colorum et Umbrae},
+year = {1760}
+}
+
+@article{joint-importance,
+author = {K\v{r}iv\'{a}nek, Jaroslav and Georgiev, Iliyan and Hachisuka, Toshiya and V\'{e}voda, Petr and \v{S}ik, Martin and Nowrouzezahrai, Derek and Jarosz, Wojciech},
+title = {Unifying Points, Beams, and Paths in Volumetric Light Transport Simulation},
+year = {2014},
+issue_date = {July 2014},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {33},
+number = {4},
+issn = {0730-0301},
+url = {https://doi.org/10.1145/2601097.2601219},
+doi = {10.1145/2601097.2601219},
+abstract = {Efficiently computing light transport in participating media in a manner that is robust to variations in media density, scattering albedo, and anisotropy is a difficult and important problem in realistic image synthesis. While many specialized rendering techniques can efficiently resolve subsets of transport in specific media, no single approach can robustly handle all types of effects. To address this problem we unify volumetric density estimation, using point and beam estimators, and Monte Carlo solutions to the path integral formulation of the rendering and radiative transport equations. We extend multiple importance sampling to correctly handle combinations of these fundamentally different classes of estimators. This, in turn, allows us to develop a single rendering algorithm that correctly combines the benefits and mediates the limitations of these powerful volume rendering techniques.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+articleno = {103},
+numpages = {13},
+keywords = {global illumination, participating media, bidirectional path tracing, light transport, photon mapping, photon beams}
+}
+
+
+@phdthesis{MLT-1,
+author = {Veach, Eric},
+advisor = {Guibas, Leonidas J.},
+title = {Robust Monte Carlo Methods for Light Transport Simulation},
+year = {1998},
+isbn = {0591907801},
+publisher = {Stanford University},
+address = {Stanford, CA, USA},
+abstract = {Light transport algorithms generate realistic images by simulating the emission and scattering of light in an artificial environment. Applications include lighting design, architecture, and computer animation, while related engineering disciplines include neutron transport and radiative heat transfer. The main challenge with these algorithms is the high complexity of the geometric, scattering, and illumination models used. In this dissertation, we develop new Monte Carlo techniques that greatly extend the range of input models for which light transport simulations are practical. We start by developing a rigorous theoretical basis for bidirectional light transport algorithms (those that combine direct and adjoint techniques). We propose a new formulation based on linear operators, such that for any physically valid input scene, the transport operators are symmetric. We also show how light transport can be formulated as an integral over a space of paths. This framework allows new sampling and integration techniques to be applied, such as the Metropolis sampling method.Our statistical contributions include multiple importance sampling, a new variance reduction technique that can greatly increase the robustness of Monte Carlo integration. It uses more than one sampling technique to evaluate an integral, and combines these samples in a way that is provably close to optimal.Finally, we propose new Monte Carlo light transport algorithms. Bidirectional path tracing uses a family of different path sampling techniques that generate some path vertices starting from a light source, and some starting from a sensor. We show that when these techniques are combined using multiple importance sampling, a large range of difficult lighting effects can be handled efficiently.The second algorithm we describe is Metropolis light transport, inspired by the Metropolis sampling method from computational physics. Paths are generated by following a random walk through path space, such that the probability density of visiting each path is proportional the contribution it makes to the ideal image. The resulting algorithm is unbiased, handles arbitrary geometry and materials, and can be orders of magnitude more efficient than previous unbiased approaches for difficult lighting problems. To our knowledge, this is the first application of the Metropolis method to transport problems of any kind.},
+note = {AAI9837162}
+}
+
+@inproceedings{MLT-2,
+author = {Pauly, Mark and Kollig, Thomas and Keller, Alexander},
+title = {Metropolis Light Transport for Participating Media},
+year = {2000},
+isbn = {3211835350},
+publisher = {Springer-Verlag},
+address = {Berlin, Heidelberg},
+booktitle = {Proceedings of the Eurographics Workshop on Rendering Techniques 2000},
+pages = {11–22},
+numpages = {12}
+}
+
+@article{Munoz14,
+author = {Mu\~{n}oz, Adolfo},
+title = {Higher Order Ray Marching},
+year = {2014},
+issue_date = {December 2014},
+publisher = {The Eurographs Association & John Wiley & Sons, Ltd.},
+address = {Chichester, GBR},
+volume = {33},
+number = {8},
+issn = {0167-7055},
+url = {https://doi.org/10.1111/cgf.12424},
+doi = {10.1111/cgf.12424},
+abstract = {Rendering participating media is still a challenging and time consuming task. In such media light interacts at every differential point of its path. Several rendering algorithms are based on ray marching: dividing the path of light into segments and calculating interactions at each of them. In this work, we revisit and analyze ray marching both as a quadrature integrator and as an initial value problem solver, and apply higher order adaptive solvers that ensure several interesting properties, such as faster convergence, adaptiveness to the mathematical definition of light transport and robustness to singularities. We compare several numerical methods, including standard ray marching and Monte Carlo integration, and illustrate the benefits of different solvers for a variety of scenes. Any participating media rendering algorithm that is based on ray marching may benefit from the application of our approach by reducing the number of needed samples and therefore, rendering time and increasing accuracy.},
+journal = {Comput. Graph. Forum},
+month = {dec},
+pages = {167–176},
+numpages = {10},
+keywords = {I.3.7 [Computer Graphics]: Colour, shading, shadowing, and texture I.3.7 [Computer Graphics]: Ray tracing, importance sampling, volume rendering, ray marching, rendering}
+}
+
+@incollection{vonNeumann1951,
+title     = {Various Techniques Used in Connection with Random Digits},
+author    = {von Neumann, John},
+booktitle = {Monte Carlo Method},
+editor    = {Householder, A.~S. and Forsythe, G.~E. and Germond, H.~H.},
+series    = {National Bureau of Standards Applied Mathematics Series},
+volume    = {12},
+chapter   = {13},
+pages     = {36--38},
+year      = {1951},
+publisher = {US Government Printing Office},
+address   = {Washington, DC},
+}
+
+@book{PharrHumphrey2016,
+author = {Pharr, M. and Jakob, W. and Humphreys, G.},
+year = {2016},
+month = {11},
+pages = {1-1233},
+title = {Physically based rendering: From theory to implementation: Third edition}
+}
+
+
+@inproceedings{AIaggr01,
+  title={Rendering Discrete Random Media Using Precomputed Scattering Solutions},
+  author={Jonathan T. Moon and Bruce Walter and Steve Marschner},
+  booktitle={Rendering Techniques},
+  year={2007}
+}
+
+@article{AIaggr02,
+  title={Multi-scale modeling and rendering of granular materials.},
+  author={Meng, Johannes and Papas, Marios and Habel, Ralf and Dachsbacher, Carsten and Marschner, Steve and Gross, Markus H and Jarosz, Wojciech},
+  journal={ACM Trans. Graph.},
+  volume={34},
+  number={4},
+  pages={49--1},
+  year={2015},
+  publisher={Citeseer}
+}
+
+@article{AIaggr03,
+  title={Efficient rendering of heterogeneous polydisperse granular media},
+  author={M{\"u}ller, Thomas and Papas, Marios and Gross, Markus and Jarosz, Wojciech and Nov{\'a}k, Jan},
+  journal={ACM Transactions on Graphics (TOG)},
+  volume={35},
+  number={6},
+  pages={1--14},
+  year={2016},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{AIdiff01,
+  title={A practical model for subsurface light transport},
+  author={Jensen, Henrik Wann and Marschner, Stephen R and Levoy, Marc and Hanrahan, Pat},
+  booktitle={Proceedings of the 28th annual conference on Computer graphics and interactive techniques},
+  pages={511--518},
+  year={2001}
+}
+
+@article{AIdiff02,
+author = {D'Eon, Eugene and Irving, Geoffrey},
+title = {A Quantized-Diffusion Model for Rendering Translucent Materials},
+year = {2011},
+issue_date = {July 2011},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {30},
+number = {4},
+issn = {0730-0301},
+url = {https://doi.org/10.1145/2010324.1964951},
+doi = {10.1145/2010324.1964951},
+abstract = {We present a new BSSRDF for rendering images of translucent materials. Previous diffusion BSSRDFs are limited by the accuracy of classical diffusion theory. We introduce a modified diffusion theory that is more accurate for highly absorbing materials and near the point of illumination. The new diffusion solution accurately decouples single and multiple scattering. We then derive a novel, analytic, extended-source solution to the multilayer search-light problem by quantizing the diffusion Green's function. This allows the application of the diffusion multipole model to material layers several orders of magnitude thinner than previously possible and creates accurate results under high-frequency illumination. Quantized diffusion provides both a new physical foundation and a variable-accuracy construction method for sum-of-Gaussians BSSRDFs, which have many useful properties for efficient rendering and appearance capture. Our BSSRDF maps directly to previous real-time rendering algorithms. For film production rendering, we propose several improvements to previous hierarchical point cloud algorithms by introducing a new radial-binning data structure and a doubly-adaptive traversal strategy.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+articleno = {56},
+numpages = {14},
+keywords = {diffusion, reflection models, layered materials, transport theory, searchlight problem, BSSRDF, subsurface scattering}
+}
+
+@article{AIdiff03,
+  title={Directional dipole model for subsurface scattering},
+  author={Frisvad, Jeppe Revall and Hachisuka, Toshiya and Kjeldsen, Thomas Kim},
+  journal={ACM Transactions on Graphics (TOG)},
+  volume={34},
+  number={1},
+  pages={1--12},
+  year={2014},
+  publisher={ACM New York, NY, USA}
+}
+
+@inproceedings{AIdiff04,
+  title={Flux-limited diffusion for multiple scattering in participating media},
+  author={Koerner, David and Portsmouth, Jamie and Sadlo, Filip and Ertl, Thomas and Eberhardt, Bernd},
+  booktitle={Computer Graphics Forum},
+  volume={33},
+  number={6},
+  pages={178--189},
+  year={2014},
+  organization={Wiley Online Library}
+}
+
+@article{AIdl,
+  title={Deep scattering: Rendering atmospheric clouds with radiance-predicting neural networks},
+  author={Kallweit, Simon and M{\"u}ller, Thomas and Mcwilliams, Brian and Gross, Markus and Nov{\'a}k, Jan},
+  journal={ACM Transactions on Graphics (TOG)},
+  volume={36},
+  number={6},
+  pages={1--11},
+  year={2017},
+  publisher={ACM New York, NY, USA}
+}
+
+@article{AIsurf01,
+  title={On-line learning of parametric mixture models for light transport simulation},
+  author={Vorba, Ji{\v{r}}{\'\i} and Karl{\'\i}k, Ond{\v{r}}ej and {\v{S}}ik, Martin and Ritschel, Tobias and K{\v{r}}iv{\'a}nek, Jaroslav},
+  journal={ACM Transactions on Graphics (TOG)},
+  volume={33},
+  number={4},
+  pages={1--11},
+  year={2014},
+  publisher={ACM New York, NY, USA}
+}
+
+@article{AIsurf02,
+author = {Vorba, Ji\v{r}\'{\i} and K\v{r}iv\'{a}nek, Jaroslav},
+title = {Adjoint-Driven Russian Roulette and Splitting in Light Transport Simulation},
+year = {2016},
+issue_date = {July 2016},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {35},
+number = {4},
+issn = {0730-0301},
+url = {https://doi.org/10.1145/2897824.2925912},
+doi = {10.1145/2897824.2925912},
+abstract = {While Russian roulette (RR) and splitting are considered fundamental importance sampling techniques in neutron transport simulations, they have so far received relatively little attention in light transport. In computer graphics, RR and splitting are most often based solely on local reflectance properties. However, this strategy can be far from optimal in common scenes with non-uniform light distribution as it does not accurately predict the actual path contribution. In our approach, like in neutron transport, we estimate the expected contribution of a path as the product of the path weight and a pre-computed estimate of the adjoint transport solution. We use this estimate to generate so-called weight window which keeps the path contribution roughly constant through RR and splitting. As a result, paths in unimportant regions tend to be terminated early while in the more important regions they are spawned by splitting. This results in substantial variance reduction in both path tracing and photon tracing-based simulations. Furthermore, unlike the standard computer graphics RR, our approach does not interfere with importance-driven sampling of scattering directions, which results in superior convergence when such a technique is combined with our approach. We provide a justification of this behavior by relating our approach to the zero-variance random walk theory.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+articleno = {42},
+numpages = {11},
+keywords = {zero-variance schemes, russian roulette, importance sampling, splitting, light transport}
+}
+
+@inproceedings{AIsurf03,
+  title={Product importance sampling for light transport path guiding},
+  author={Herholz, Sebastian and Elek, Oskar and Vorba, Ji{\v{r}}{\'\i} and Lensch, Hendrik and K{\v{r}}iv{\'a}nek, Jaroslav},
+  booktitle={Computer Graphics Forum},
+  volume={35},
+  number={4},
+  pages={67--77},
+  year={2016},
+  organization={Wiley Online Library}
+}
+
+@inproceedings{AIsurf04,
+  title={Practical path guiding for efficient light-transport simulation},
+  author={M{\"u}ller, Thomas and Gross, Markus and Nov{\'a}k, Jan},
+  booktitle={Computer Graphics Forum},
+  volume={36},
+  number={4},
+  pages={91--100},
+  year={2017},
+  organization={Wiley Online Library}
+}
+
+@article{novak2014residual,
+  title={Residual ratio tracking for estimating attenuation in participating media.},
+  author={Nov{\'a}k, Jan and Selle, Andrew and Jarosz, Wojciech},
+  journal={ACM Trans. Graph.},
+  volume={33},
+  number={6},
+  pages={179--1},
+  year={2014}
+}
+
+@article{yue2010unbiased,
+  title={Unbiased, adaptive stochastic sampling for rendering inhomogeneous participating media},
+  author={Yue, Yonghao and Iwasaki, Kei and Chen, Bing-Yu and Dobashi, Yoshinori and Nishita, Tomoyuki},
+  journal={ACM Transactions on Graphics (TOG)},
+  volume={29},
+  number={6},
+  pages={1--8},
+  year={2010},
+  publisher={ACM New York, NY, USA}
+}
+
+@article{kutz2017spectral,
+author = {Kutz, Peter and Habel, Ralf and Li, Yining Karl and Nov\'{a}k, Jan},
+title = {Spectral and Decomposition Tracking for Rendering Heterogeneous Volumes},
+year = {2017},
+issue_date = {July 2017},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {36},
+number = {4},
+issn = {0730-0301},
+url = {https://doi.org/10.1145/3072959.3073665},
+doi = {10.1145/3072959.3073665},
+abstract = {We present two novel unbiased techniques for sampling free paths in heterogeneous participating media. Our decomposition tracking accelerates free-path construction by splitting the medium into a control component and a residual component and sampling each of them separately. To minimize expensive evaluations of spatially varying collision coefficients, we define the control component to allow constructing free paths in closed form. The residual heterogeneous component is then homogenized by adding a fictitious medium and handled using weighted delta tracking, which removes the need for computing strict bounds of the extinction function. Our second contribution, spectral tracking, enables efficient light transport simulation in chromatic media. We modify free-path distributions to minimize the fluctuation of path throughputs and thereby reduce the estimation variance. To demonstrate the correctness of our algorithms, we derive them directly from the radiative transfer equation by extending the integral formulation of null-collision algorithms recently developed in reactor physics. This mathematical framework, which we thoroughly review, encompasses existing trackers and postulates an entire family of new estimators for solving transport problems; our algorithms are examples of such. We analyze the proposed methods in canonical settings and on production scenes, and compare to the current state of the art in simulating light transport in heterogeneous participating media.},
+journal = {ACM Trans. Graph.},
+month = {jul},
+articleno = {111},
+numpages = {16},
+keywords = {free-path sampling, delta tracking, transmittance, color, ratio tracking, participating media, volume rendering}
+}
