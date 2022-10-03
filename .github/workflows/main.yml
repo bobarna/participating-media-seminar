@@ -6,18 +6,41 @@ on:
   workflow_dispatch:
 
 jobs:
-  build_latex:
+  build:
     runs-on: ubuntu-latest
+    env:
+      FILE: main
     steps:
-      - name: Set up Git repository
+      - name: checkout
         uses: actions/checkout@v2
+      - name: install texlive
+        run: sudo apt update && sudo apt install texlive-full
+      - name: install TUM template
+        run: wget -O tum.deb 'https://gitlab.lrz.de/latex4ei/tum-templates/-/jobs/artifacts/v2.0.0/raw/build/tum-latex-templates-2.0.0.deb' && sudo apt install ./tum.deb
       - name: Compile LaTeX document
-        uses: xu-cheng/latex-action@v2
-        with:
-          root_file: main.tex
-      - name: Release
+        run: pdflatex ${{env.FILE}}; bibtex ${{env.FILE}}; pdflatex ${{env.FILE}}; pdflatex ${{env.FILE}};
+      - name: move artifact
+        run: mkdir -p github_artifacts && mv ${{env.FILE}}.pdf ./github_artifacts/
+      - name: upload pdf artifact
         uses: actions/upload-artifact@v2
         with:
-          name: PDF
-          path: main.pdf
-
+          name: ${{env.FILE}}.pdf
+          path: ./github_artifacts
+  deploy:
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - uses: actions/download-artifact@v2
+        with:
+          path: github_artifacts
+      - name: move
+        run: mkdir -p github_deploy && mv github_artifacts/*/* github_deploy
+      - name: deploy on gh-pages branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./github_deploy
+          publish_branch: gh_pages
+          force_orphan: true
