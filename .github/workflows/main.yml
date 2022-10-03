@@ -9,16 +9,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
+      DIR: seminar_paper
       FILE: main
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install texlive
         run: sudo apt update && sudo apt install texlive texlive-publishers texlive-science 
-      - name: Install TUM template
-        run: sudo bash ./ci-install.sh
+      # - name: Install TUM template
+      #   run: sudo bash ./ci-install.sh
       - name: Compile LaTeX document
-        run: pdflatex ${{env.FILE}}; bibtex ${{env.FILE}}; pdflatex ${{env.FILE}}; pdflatex ${{env.FILE}};
+        run: cd ${{env.DIR}};pdflatex ${{env.FILE}}; bibtex ${{env.FILE}}; pdflatex ${{env.FILE}}; pdflatex ${{env.FILE}};
       - name: Move Artifact
         run: mkdir -p github_artifacts && mv ${{env.FILE}}.pdf ./github_artifacts/
       - name: Upload pdf Artifact
