@@ -16,7 +16,7 @@ jobs:
       - name: apt update
         run: sudo apt update
       - name: install TUM template
-        run: wget -O tum.deb 'https://gitlab.lrz.de/latex4ei/tum-templates/-/jobs/artifacts/v2.0.0/raw/build/tum-latex-templates-2.0.0.deb' && sudo apt install ./tum.deb
+        run: wget 'https://gitlab.lrz.de/latex4ei/tum-templates/-/jobs/artifacts/v2.0.0/raw/build/tum-latex-templates-2.0.0.deb' && sudo apt install ./*.deb
       - name: Install texlive
         run: sudo apt update && sudo apt install texlive texlive-publishers texlive-science 
       - name: Compile LaTeX document
