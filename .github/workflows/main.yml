@@ -17,13 +17,15 @@ jobs:
         uses: actions/checkout@v2
       - name: Install texlive
         run: sudo apt update && sudo apt install texlive texlive-publishers texlive-science 
+      - name: Compile Seminar Paper
+        run: cd ${{env.DIR}}; pdflatex -interaction=nonstopmode ${{env.FILE}}.tex; bibtex ${{env.FILE}}; pdflatex -interaction=nonstopmode ${{env.FILE}}.tex; pdflatex -interaction=nonstopmode ${{env.FILE}}.tex
+        continue-on-error: true
       # - name: Install TUM template
       #   run: sudo bash ./ci-install.sh
-      - name: Compile LaTeX document
-        run: cd ${{env.DIR}}; pdflatex -interaction=nonstopmode ${{env.FILE}}; bibtex ${{env.FILE}}; pdflatex -interaction=nonstopmode ${{env.FILE}}; pdflatex -interaction=nonstopmode ${{env.FILE}}
-        continue-on-error: true
-      - name: Move Artifact
-        run: mkdir -p github_artifacts && mv ${{env.DIR}}/${{env.FILE}}.pdf ./github_artifacts/${{env.PDF}}
+      # - name: Compile Presentation
+      #   run: cd ${{env.DIR}}; pdflatex -interaction=nonstopmode
+      - name: Move Artifacts
+        run: cd ..;echo $PWD; mkdir -p github_artifacts && mv ${{env.DIR}}/${{env.FILE}}.pdf ./github_artifacts/${{env.PDF}}
       - name: Upload pdf Artifact
         uses: actions/upload-artifact@v2
         with:
