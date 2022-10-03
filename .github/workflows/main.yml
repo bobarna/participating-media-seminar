@@ -11,6 +11,7 @@ jobs:
     env:
       DIR: seminar_paper
       FILE: main
+      PDF: paper.pdf
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -19,20 +20,14 @@ jobs:
       # - name: Install TUM template
       #   run: sudo bash ./ci-install.sh
       - name: Compile LaTeX document
-        run: cd ${{env.DIR}}; pdflatex -interaction=nonstopmode ${{env.FILE}}
-        continue-on-error: true
-      - name: Compile Bibtex
-        run: cd ${{env.DIR}}; bibtex ${{env.FILE}}
-        continue-on-error: true
-      - name: Finish LaTeX Compilation
-        run: cd ${{env.DIR}};pdflatex -interaction=nonstopmode ${{env.FILE}}; pdflatex -interaction=nonstopmode ${{env.FILE}}|
+        run: cd ${{env.DIR}}; pdflatex -interaction=nonstopmode ${{env.FILE}}; bibtex ${{env.FILE}}; pdflatex -interaction=nonstopmode ${{env.FILE}}; pdflatex -interaction=nonstopmode ${{env.FILE}}
         continue-on-error: true
       - name: Move Artifact
-        run: mkdir -p github_artifacts && mv ${{env.DIR}}/${{env.FILE}}.pdf ./github_artifacts/
+        run: mkdir -p github_artifacts && mv ${{env.DIR}}/${{env.FILE}}.pdf ./github_artifacts/${{PDF}}
       - name: Upload pdf Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{env.FILE}}.pdf
+          name: ${{PDF}}
           path: ./github_artifacts
   deploy:
     needs: [build]
