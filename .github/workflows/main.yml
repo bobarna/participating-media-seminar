@@ -22,10 +22,10 @@ jobs:
         run: cd ${{env.DIR}}; pdflatex -interaction=nonstopmode ${{env.FILE}}
         continue-on-error: true
       - name: Compile Bibtex
-        run: bibtex ${{env.FILE}}
+        run: cd ${{env.DIR}}; bibtex ${{env.FILE}}
         continue-on-error: true
       - name: Finish LaTeX Compilation
-        run: pdflatex -interaction=nonstopmode ${{env.FILE}}; pdflatex -interaction=nonstopmode ${{env.FILE}}|
+        run: cd ${{env.DIR}};pdflatex -interaction=nonstopmode ${{env.FILE}}; pdflatex -interaction=nonstopmode ${{env.FILE}}|
         continue-on-error: true
       - name: Move Artifact
         run: mkdir -p github_artifacts && mv ${{env.DIR}}/${{env.FILE}}.pdf ./github_artifacts/
