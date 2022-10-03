@@ -13,15 +13,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install TUM template
-        run: sudo bash ./install-linux.sh
       - name: Install texlive
         run: sudo apt update && sudo apt install texlive texlive-publishers texlive-science 
+      - name: Install TUM template
+        run: sudo bash ./ci-install.sh
       - name: Compile LaTeX document
         run: pdflatex ${{env.FILE}}; bibtex ${{env.FILE}}; pdflatex ${{env.FILE}}; pdflatex ${{env.FILE}};
-      - name: move artifact
+      - name: Move Artifact
         run: mkdir -p github_artifacts && mv ${{env.FILE}}.pdf ./github_artifacts/
-      - name: upload pdf artifact
+      - name: Upload pdf Artifact
         uses: actions/upload-artifact@v2
         with:
           name: ${{env.FILE}}.pdf
