@@ -13,10 +13,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: ready apt 
-        run: sudo apt clean && sudo rm -rf /var/lib/apt && sudo mkdir -p lists/partial && sudo apt clean && sudo apt update
-      - name: install TUM template
-        run: wget 'https://gitlab.lrz.de/latex4ei/tum-templates/-/jobs/artifacts/v2.0.0/raw/build/tum-latex-templates-2.0.0.deb' && sudo apt install ./*.deb
+      - name: Install TUM template
+        run: ./install-linux.sh
       - name: Install texlive
         run: sudo apt update && sudo apt install texlive texlive-publishers texlive-science 
       - name: Compile LaTeX document
