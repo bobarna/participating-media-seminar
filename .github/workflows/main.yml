@@ -1,35 +1,44 @@
 name: Build LaTeX document
 on: 
-  # push:
-    # branches: ["main"]
-  # Allows you to run this workflow manually from the Actions tab
+  push:
+    branches: 
+      - main
+  # Allows the workflow to be started manually
   workflow_dispatch:
 
 jobs:
-  build:
+  deploy_seminar:
     runs-on: ubuntu-latest
     env:
-      DIR: seminar_paper
+      DIR_paper: seminar_paper
+      DIR_presentation: presentation
       FILE: main
-      PDF: paper.pdf
+      PDF_paper: seminar_paper.pdf
+      PDF_presentation: seminar_paper.pdf
     steps:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Install texlive
         run: sudo apt update && sudo apt install texlive texlive-publishers texlive-science 
       - name: Compile Seminar Paper
-        run: cd ${{env.DIR}}; pdflatex -interaction=nonstopmode ${{env.FILE}}.tex; bibtex ${{env.FILE}}; pdflatex -interaction=nonstopmode ${{env.FILE}}.tex; pdflatex -interaction=nonstopmode ${{env.FILE}}.tex
+        run: cd ${{env.DIR_paper}}; pdflatex -interaction=nonstopmode ${{env.FILE}}.tex; bibtex ${{env.FILE}}; pdflatex -interaction=nonstopmode ${{env.FILE}}.tex; pdflatex -interaction=nonstopmode ${{env.FILE}}.tex
         continue-on-error: true
-      # - name: Install TUM template
-      #   run: sudo bash ./ci-install.sh
-      # - name: Compile Presentation
-      #   run: cd ${{env.DIR}}; pdflatex -interaction=nonstopmode
-      - name: Move Artifacts
-        run: echo $PWD; mkdir -p github_artifacts && mv ${{env.DIR}}/${{env.FILE}}.pdf ./github_artifacts/${{env.PDF}}
-      - name: Upload pdf Artifact
-        uses: actions/upload-artifact@v2
+      - name: Move Paper
+        run: echo $PWD; mkdir -p github_artifacts && mv ${{env.DIR_paper}}/${{env.FILE}}.pdf ./github_artifacts/${{env.PDF_paper}}
+      - name: Compile Presentation
+        run: cd ${{env.DIR_presentation}}; pdflatex -interaction=nonstopmode ${{env.FILE}}.tex; pdflatex -interaction=nonstopmode ${{env.FILE}}.tex; 
+        continue-on-error: true
+      - name: Move Presentation
+        run: echo $PWD; mkdir -p github_artifacts && mv ${{env.DIR_presentation}}/${{env.FILE}}.pdf ./github_artifacts/${{env.PDF_presentation}}
+      - name: Upload seminar_presentation.pdf Artifact
+        uses: actions/upload-artifact@v3
         with:
-          name: ${{env.PDF}}
+          name: ${{env.PDF_paper}}
+          path: ./github_artifacts
+      - name: Upload presentation.pdf Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{env.PDF_presentation}}
           path: ./github_artifacts
   deploy:
     needs: [build]
