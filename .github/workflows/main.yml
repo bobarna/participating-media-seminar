@@ -5,9 +5,8 @@ on:
       - main
   # Allows the workflow to be started manually
   workflow_dispatch:
-
 jobs:
-  deploy_seminar:
+  build:
     runs-on: ubuntu-latest
     env:
       DIR_paper: seminar_paper
