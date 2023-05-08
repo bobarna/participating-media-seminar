@@ -235,7 +235,8 @@
   TUM default/.code = {
       \def\@tum@logocolor@{TUMBlue}
       \setbeamercolor{title}{fg=TUMBlue, bg=}
-      \setbeamercolor{subtitle}{fg=TUMBlueDark, bg=}
+      % \setbeamercolor{subtitle}{fg=TUMBlueDark, bg=}
+      \setbeamercolor{subtitle}{fg=TUMBlue, bg=}
       \setbeamercolor{author}{fg=TUMBlack, bg=}
       \setbeamercolor{institute}{fg=TUMBlack, bg=}
       \setbeamercolor{date}{fg=TUMBlack, bg=}
@@ -421,6 +422,7 @@
 
 \defbeamertemplate{title page}{TUM centered}{
   \vfill
+  \vfill
   \begin{beamercolorbox}[wd=\paperwidth, ht=2.2cm, dp=0pt, center]{title}
     \vbox to 2.2cm {
       \usebeamerfont{title}\inserttitle\par
@@ -429,7 +431,7 @@
         \usebeamerfont{subtitle}\usebeamercolor[fg]{subtitle}
         \insertsubtitle\par
       }
-      \vfil
+      \vfill
     }
   \end{beamercolorbox}
   \nointerlineskip

@@ -73,13 +73,25 @@
 % ----------------------------------------------------------------------------
 
 % primary colors
-\definecolor{TUMBlue}        {RGB/cmyk}{  0,101,189 / 1.  ,0.43,0.  ,0.  }
-\definecolor{TUMWhite}       {RGB/cmyk}{255,255,255 / 0.  ,0.  ,0.  ,0.  }
-\definecolor{TUMBlack}       {RGB/cmyk}{  0,  0,  0 / 0.  ,0.  ,0.  ,1.  }
+\definecolor{VIKBlueLight}   {RGB}{  0, 77,156}%  / 1.  ,0.64,0.  ,0.6 }
+\definecolor{VIKWhite}       {RGB}{255,255,255}% / 0.  ,0.  ,0.  ,0.  }
+\definecolor{VIKBlack}       {rgb}{  0,  0,  0}% / 0   ,0.  ,0.  ,1.  }
+
+% \definecolor{TUMBlue}        {RGB/cmyk}{  0,101,189 / 1.  ,0.43,0.  ,0.  }
+% \definecolor{TUMWhite}       {RGB/cmyk}{255,255,255 / 0.  ,0.  ,0.  ,0.  }
+% \definecolor{TUMBlack}       {RGB/cmyk}{  0,  0,  0 / 0.  ,0.  ,0.  ,1.  }
+
+\colorlet{TUMBlue}           {VIKBlueLight}
+\colorlet{TUMWhite}          {VIKWhite}
+\colorlet{TUMBlack}          {VIKBlack}
 
 % secondary colors
-\definecolor{TUMBlueDark}    {RGB/cmyk}{  0, 82,147 / 1.  ,0.54,0.04,0.19}
-\definecolor{TUMBlueDarker}  {RGB/cmyk}{  0, 51, 89 / 1.  ,0.57,0.12,0.7 }
+% \definecolor{TUMBlueDark}    {RGB/cmyk}{  0, 82,147 / 1.  ,0.54,0.04,0.19}
+% \definecolor{TUMBlueDarker}  {RGB/cmyk}{  0, 51, 89 / 1.  ,0.57,0.12,0.7 }
+\definecolor{VIKBlue}     {RGB}{5, 42, 75}
+\colorlet{TUMBlueDark}    {VIKBlue}
+\colorlet{TUMBlueDarker}  {VIKBlue}
+
 \definecolor{TUMGrayDark}    {RGB/cmyk}{ 88, 88, 90 / 0.  ,0.  ,0.  ,0.8 }
 \definecolor{TUMGray}        {RGB/cmyk}{156,157,159 / 0.  ,0.  ,0.  ,0.5 }
 \definecolor{TUMGrayLight}   {RGB/cmyk}{217,218,219 / 0.  ,0.  ,0.  ,0.2 }
