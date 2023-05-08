@@ -29,6 +29,9 @@
 % load additional packages
 \usepackage{booktabs}
 
+\usepackage[numbers,square]{natbib}
+\bibliographystyle{unsrtnat}
+
 \usepackage[utf8]{inputenc}
 \usepackage{xcolor}
 \usepackage{tikz}
@@ -62,14 +65,15 @@
 \usepackage{bm}
 
 % presentation metadata
-\title{Rendering Participating Media}
-\subtitle{Data Visualization Seminar}
-\author{Barnabás Börcsök}
+\title{Volumetric Rendering}
+\subtitle{3D Computer Graphics}
+\author{Barnabás ``Barney'' Börcsök}
 
 \institute{\theChairName\\\theDepartmentName\\\theUniversityName}
-\date[WS 2021/2022]{Winter Semester, 2021/2022}
+\date[Spring 2023]{Spring Semester, 2022/2023}
 
-\footline{\insertauthor~|~\insertshorttitle~|~\insertshortdate}
+\footline{B. Börcsök~|~3D Computer
+Graphics~|~\insertshorttitle~|~\insertshortdate}
 
 
 % macro to configure the style of the presentation
@@ -119,12 +123,43 @@
 \end{frame}
 
 
-\begin{frame}{Motivation}
+\begin{frame}{Motivation: Animations}
   \begin{figure}
       \centering
       \includegraphics[width=\textwidth]{img/ahsoka-smoke.png}
-      \label{fig:teaser}
   \end{figure}
+\end{frame}
+
+\begin{frame}{Motivation: VFX}
+  \begin{figure}
+      \centering
+      \includegraphics[width=0.6\columnwidth]{img/moana-motivation.png}
+      \caption*{
+        Te Ka, a character from Disney’s Moana (2016).
+        Illustration from \cite{ProductionVolumeRenderingSIGGRAPH}.
+      }
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Motivation: Medicine}
+  \begin{figure}
+      \centering
+      \includegraphics[width=0.3\columnwidth]{img/zoli/shoulder_1.jpeg}
+      \includegraphics[width=0.3\columnwidth]{img/zoli/shoulder_2.jpeg}
+      \includegraphics[width=0.3\columnwidth]{img/zoli/shoulder_3.jpeg}
+      \caption*{
+        Illustration from Zoli's BSc Thesis \cite{ZoliBSc}.
+      }
+  \end{figure}
+\end{frame}
+
+\begin{frame}{Motivation: Medicine}
+  \todo{live demo}
+  \url{http://studierfenster.icg.tugraz.at/}
+\end{frame}
+
+\begin{frame}{Volume Rendering with Slices}
+  \todo{section}
 \end{frame}
 
 \begin{frame}{Propagation of light in a medium}
@@ -142,7 +177,6 @@
         \label{fig:vre}
     \end{figure}
 \end{frame}
-
 
 \begin{frame}{Possible interactions}{between the volume and the light
     traveling through the medium}
@@ -349,13 +383,6 @@ $$ T(t) = e^{-\tau(t)} = e^{-\int_0^t \sigma_t(\bx-s\bomega)ds} $$
 \begin{frame}{RTE -- Radiative Transfer Equation}
     {The integral version}
     \vfill
-    % \begin{figure}[ht]
-    %     \centering
-    %     \scalebox{.7}{
-    %         \input{img/RTE_illustration.tex}
-    %     }
-    % \end{figure}
-    \vfill
     \begin{equation}
         L(\bx, \bomega) = \int_0^\infty 
         %T(\bx, \by)
@@ -419,12 +446,8 @@ $$ T(t) = e^{-\tau(t)} = e^{-\int_0^t \sigma_t(\bx-s\bomega)ds} $$
         + 
         T(\bx, \textbf{z})L(\textbf{z},\bomega)
         $$
-    \item We need:
-        \begin{itemize}
-            \item Sampling distances
-            \item Estimating the transmittance $T$ along a ray
-        \end{itemize}
 \end{itemize}
+\todo{add visualization for sampling}
 \end{frame}
 
 \begin{frame}{Tracking}{In homogeneous volumes}
@@ -533,7 +556,10 @@ Perfectly importance sample with $t' = -ln(1-\zeta)/\sigma_t$
 \begin{equation}
   \bar\sigma = \sigma_s(\bm{x}) + \sigma_a(\bm{x}) + \sigma_n(\bm{x})
 \end{equation}
+\end{frame}
 
+\begin{frame}{Delta tracking}{Introducing null-collisions}
+  \todo{Visualization for "filling up" the transmittance function} 
 \end{frame}
 
 \begin{frame}{Transmittance Estimation}{Ray Marching}
@@ -552,33 +578,31 @@ Perfectly importance sample with $t' = -ln(1-\zeta)/\sigma_t$
     \item Volume data can quickly grow into hundreds of gigabytes for production
         \begin{itemize}
             \item For example, peak storage needed for a single shot of the
-                movie Soul was 80 TBs.
+              movie Soul was 80 TBs.\cite{PixarSoul}
         \end{itemize}
   \end{itemize}
-  \begin{figure}
-      \centering
-      \includegraphics[width=0.4\textwidth]{kd-tree-example.png}
-      \label{fig:kd-tree-example}
-      \caption{Heterogeneous volume with a spike in density results in high
-      $\bar\sigma$ everywhere. Using kd-trees lowers the number of evaluations
-      needed. \textit{Source: Production Volume Rendering SIGGRAPH 2017 Course by
-  Fong et. al.}}
-\end{figure}
+  \todo{
+    \url{https://www.openvdb.org/}
+    \url{https://artifacts.aswf.io/io/aswf/openvdb/openvdb_introduction_2015/1.0.0/openvdb_introduction_2015-1.0.0.pdf}
+    \url{http://ken.museth.org/Welcome.html}
+  }
+  \todo{
+    \url{https://dl.acm.org/doi/fullHtml/10.1145/3450623.3464653}
+    \url{https://developer.nvidia.com/nanovdb}
+  }
 \end{frame}
 
-\begin{frame}{Remaning challenges and open problems}
-    \begin{itemize}
-        \item Joint handling of surfaces and volumes
-            \begin{itemize}
-                \item Unifying the different techniques
-            \end{itemize}
-        \item Machine Learning
-            \begin{itemize}
-                \item Vast cost of data access and tracking particles
-                    high-albedo volumes (resulting in lots of scattering) --
-                    e.g. clouds
-            \end{itemize}
-    \end{itemize}
+
+\begin{frame}{NeRF: Neural Radiance Fields}
+\end{frame}
+
+\begin{frame}{Machine Learning}
+  \begin{itemize}
+      \item Vast cost of data access and tracking particles
+          in high-albedo volumes (resulting in lots of scattering) --
+          e.g. clouds
+  \end{itemize}
+  \todo{\url{https://studios.disneyresearch.com/2017/11/20/deep-scattering-rendering-atmospheric-clouds-with-radiance-predicting-neural-networks/}}
 \end{frame}
 
 \begin{frame}{Summary}
@@ -608,5 +632,10 @@ Perfectly importance sample with $t' = -ln(1-\zeta)/\sigma_t$
 \end{frame}
 
 \maketitle
+
+\begin{frame}[allowframebreaks]
+  \frametitle{Further Reading}
+  \bibliography{main}
+\end{frame}
 
 \end{document}
